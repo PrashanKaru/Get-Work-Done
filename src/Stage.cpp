@@ -272,6 +272,57 @@ void Stage::print_all_tasks(void)
         print_task(it);
     }
 }
+// print based on topic
+void Stage::print_specific_topic(string & topic)
+{
+    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    {
+        // if the topic matches print
+        if(it->second->get_topic() == topic)
+        {
+            print_task(it);
+        }
+    }
+}
+
+// print based on due date
+void Stage::print_specific_due_date(string & due_date)
+{
+    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    {
+        // if the due date matches print
+        if(it->second->get_due_date()->get_date() == due_date)
+        {
+            print_task(it);
+        }
+    }
+}
+
+// print based on time allocted
+void Stage::print_specific_time_allocated(float & time_allocated)
+{
+    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    {
+        // if the topic matches print
+        if(it->second->get_time_allocated() == time_allocated)
+        {
+            print_task(it);
+        }
+    }
+}
+
+// print based on ID
+void Stage::print_ID(size_t & ID)
+{
+    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    {
+        // if the topic matches print
+        if(it->first == ID)
+        {
+            print_task(it);
+        }
+    }
+}
 
 // destructor
 Stage::~Stage()

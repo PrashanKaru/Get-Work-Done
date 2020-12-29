@@ -31,6 +31,14 @@ class Stage
         void print_task(unordered_map<size_t, Task *>::const_iterator current_task);
         // print all tasks
         void print_all_tasks(void);
+        // print based on topic
+        void print_specific_topic(string & topic);
+        // print based on due date
+        void print_specific_due_date(string & due_date);
+        // print based on time allocated
+        void print_specific_time_allocated(float & time_allocated);
+        // print based on ID
+        void print_ID(size_t & ID);
 
         // destructor
         ~Stage();
