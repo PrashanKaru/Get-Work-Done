@@ -5,7 +5,7 @@ CC = g++
 CPPFLAGS = -std=c++14 -W -Werror -pedantic
 
 # define the C++ source files
-SRCS = main.cpp Date.cpp Task.cpp # all source files (.cpp) 
+SRCS = main.cpp Date.cpp Task.cpp Stage.cpp # all source files (.cpp) 
 
 # C++ object files 
 # Replace suffix .c with .o suffix for each source file

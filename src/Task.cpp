@@ -20,7 +20,7 @@ Task("", "", 0.0, 0.0, nullptr)
     }
     catch(const bad_alloc & exp)
     {
-        throw bad_alloc(exp);
+        throw runtime_error("Cannot create due date, out of memory");
     }
     
 }
@@ -43,7 +43,7 @@ Task(src.topic, src.description, src.time_allocated, src.time_taken, nullptr)
     }
     catch(const bad_alloc & exp)
     {
-        throw bad_alloc(exp);
+        throw runtime_error("Cannot create due date, out of memory");
     }
 }
 
