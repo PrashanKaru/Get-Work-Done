@@ -13,7 +13,7 @@ class Task
         Task();
         
         // All fields contructor - should be called when reading from saved data
-        Task(string topic, string description, float time_allocated, float time_taken, Date due_date);
+        Task(string topic, string description, float time_allocated, float time_taken, Date * due_date);
 
         // accessors
 
@@ -33,14 +33,14 @@ class Task
         float get_time_taken(void);
 
         // get due_date
-        Date get_due_date(void);
+        Date * get_due_date(void);
 
     private:
         string topic;
         string description;
         float time_allocated; // this will be in hours
         float time_taken; // this will be in hours
-        Date due_date;
+        Date * due_date;
 };
 
 #endif

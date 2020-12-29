@@ -11,13 +11,13 @@ using namespace std;
 
 // Empty contructor - should be called only when creating a new task from menu
 Task::Task():
-topic(""), description(""), time_allocated(0.0), time_taken(0.0)
+Task("", "", 0.0, 0.0, nullptr)
 {
 
 }
 
 // All fields contructor - should be called when reading from saved data
-Task::Task(string topic, string description, float time_allocated, float time_taken, Date due_date):
+Task::Task(string topic, string description, float time_allocated, float time_taken, Date * due_date):
 topic(topic), description(description), time_allocated(time_allocated), time_taken(time_taken), due_date(due_date)
 {
 
@@ -73,20 +73,35 @@ void Task::set_task_stdin(void)
     this->time_taken = f_data;
 
     // set due_date
-    due_date.set_date_stdin();
+    due_date->set_date_stdin();
 }
 
 // get topic
-string get_topic(void);
+string Task::get_topic(void)
+{
+    return this->topic;
+}
 
 // get description
-string get_description(void);
+string Task::get_description(void)
+{
+    return this->description;
+}
 
 // get time_allocated
-float get_time_allocated(void);
+float Task::get_time_allocated(void)
+{
+    return this->time_allocated;
+}
 
 // get time_taken
-float get_time_taken(void);
+float Task::get_time_taken(void)
+{
+    return this->time_taken;
+}
 
 // get due_date
-Date get_due_date(void);
+Date * Task::get_due_date(void)
+{
+    return this->due_date;
+}
