@@ -35,6 +35,9 @@ class Task
         // get due_date
         Date * get_due_date(void);
 
+        // Destructor
+        ~Task();
+
     private:
         string topic;
         string description;

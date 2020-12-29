@@ -13,7 +13,16 @@ using namespace std;
 Task::Task():
 Task("", "", 0.0, 0.0, nullptr)
 {
-
+    try
+    {
+        // create an instance of Date for due_date which will be used later
+        this->due_date = new Date();
+    }
+    catch(const bad_alloc& exp)
+    {
+        throw bad_alloc(exp);
+    }
+    
 }
 
 // All fields contructor - should be called when reading from saved data
@@ -32,16 +41,16 @@ void Task::set_task_stdin(void)
 
     // set topic
     cout << "Enter topic: ";
-    cin >> s_data;
+    getline(cin, s_data);
 
     this->topic = s_data;
 
     // set description
     cout << "Enter description: ";
-    cin >> s_data;
+    getline(cin, s_data);
 
     this->description = s_data;
-
+    
     float f_data;
 
     // set time_allocated
@@ -58,21 +67,9 @@ void Task::set_task_stdin(void)
 
     this->time_allocated = f_data;
 
-    // set time_taken
-    cout << "Enter time taken: ";
-    cin >> f_data;
+    cout << "Set due date" << endl;
 
-    // check to see if the time is only positive and not negative
-    while(f_data < 0)
-    {
-        cout << "Please enter a positive time\n";
-        cout << "Enter time taken: ";
-        cin >> f_data;
-    }
-
-    this->time_taken = f_data;
-
-    // set due_date
+    // set all fields in due_date
     due_date->set_date_stdin();
 }
 
@@ -104,4 +101,9 @@ float Task::get_time_taken(void)
 Date * Task::get_due_date(void)
 {
     return this->due_date;
+}
+
+Task::~Task()
+{
+    delete due_date;
 }
