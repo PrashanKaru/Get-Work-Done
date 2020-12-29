@@ -88,10 +88,22 @@ void Task::set_task_stdin(void)
     due_date->set_date_stdin();
 }
 
+// set topic
+void Task::set_topic(string & topic)
+{
+    this->topic = topic;
+}
+
 // get topic
 string Task::get_topic(void)
 {
     return this->topic;
+}
+
+// set description
+void Task::set_description(string & description)
+{
+    this->description = description;
 }
 
 // get description
@@ -100,16 +112,34 @@ string Task::get_description(void)
     return this->description;
 }
 
+// set time_allocated
+void Task::set_time_allocated(float & time_allocated)
+{
+    this->time_allocated = time_allocated;
+}
+
 // get time_allocated
 float Task::get_time_allocated(void)
 {
     return this->time_allocated;
 }
 
+// set time_taken
+void Task::set_time_taken(float & time_taken)
+{
+    this->time_taken = time_taken;
+}
+
 // get time_taken
 float Task::get_time_taken(void)
 {
     return this->time_taken;
+}
+
+// set due_date
+void Task::set_due_date(string & due_date)
+{
+    // call method to set due date - to be written 
 }
 
 // get due_date

@@ -23,17 +23,32 @@ class Task
         // set all fields in Task from stdin
         void set_task_stdin(void);
 
+        // set topic
+        void set_topic(string & topic);
+
         // get topic
         string get_topic(void);
+        
+        // set description
+        void set_description(string & description);
         
         // get description
         string get_description(void);
 
+        // set time_allocated
+        void set_time_allocated(float & time_allocated);
+
         // get time_allocated
         float get_time_allocated(void);
 
+        // set time_taken
+        void set_time_taken(float & time_taken);
+
         // get time_taken
         float get_time_taken(void);
+
+        // set due_date
+        void set_due_date(string & due_date);
 
         // get due_date
         Date * get_due_date(void);
