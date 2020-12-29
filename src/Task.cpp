@@ -18,7 +18,7 @@ Task("", "", 0.0, 0.0, nullptr)
         // create an instance of Date for due_date which will be used later
         this->due_date = new Date();
     }
-    catch(const bad_alloc& exp)
+    catch(const bad_alloc & exp)
     {
         throw bad_alloc(exp);
     }
@@ -30,6 +30,21 @@ Task::Task(string topic, string description, float time_allocated, float time_ta
 topic(topic), description(description), time_allocated(time_allocated), time_taken(time_taken), due_date(due_date)
 {
 
+}
+
+// Copy constructor
+Task::Task(const Task & src):
+Task(src.topic, src.description, src.time_allocated, src.time_taken, nullptr)
+{
+    cout << "Calling copy constructor\n";
+    try
+    {
+        this->due_date = new Date(*(src.due_date));
+    }
+    catch(const bad_alloc & exp)
+    {
+        throw bad_alloc(exp);
+    }
 }
 
 // accessors
@@ -106,4 +121,5 @@ Date * Task::get_due_date(void)
 Task::~Task()
 {
     delete due_date;
+    due_date = nullptr;
 }

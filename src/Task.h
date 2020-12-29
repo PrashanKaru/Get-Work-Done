@@ -15,6 +15,9 @@ class Task
         // All fields contructor - should be called when reading from saved data
         Task(string topic, string description, float time_allocated, float time_taken, Date * due_date);
 
+        // Copy constructor
+        Task(const Task & src);
+
         // accessors
 
         // set all fields in Task from stdin
