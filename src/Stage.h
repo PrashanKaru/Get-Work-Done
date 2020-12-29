@@ -22,9 +22,9 @@ class Stage
         // remove task
         void remove_task(size_t id);
         // this will be used to load the tasks from disk
-        void load_tasks(const char * file_name);
+        void load_tasks(void);
         // this will be used to save the tasks to disk
-        void save_tasks(const char * file_name);
+        void save_tasks(void);
         // print a table edge with a specific character
         void print_table_edge(const char character, const unsigned short horizontal_line_length);
         // print a single task

@@ -1,5 +1,6 @@
 // standard include files
 #include <iostream>
+#include <fstream>
 
 // personal include files
 #include "Stage.h"
@@ -74,14 +75,94 @@ void Stage::remove_task(size_t id)
 }
 
 // this will be used to load the tasks from disk
-void Stage::load_tasks(const char * file_name)
+void Stage::load_tasks(void)
 {
+    // create string which holds file name
+    string file_name = "." + this->stage + ".data";
 
+    // open in reading mode
+    ifstream stage_file(file_name, ios_base::in);
+
+    // if the file did not open then exit method and give appropriate message
+    if(stage_file.is_open() == false)
+    {
+        cerr << "Error in opening file to save" << endl;
+        return;
+    }
+    
+    Task * new_task = nullptr;
+
+    try
+    {
+        while(true)
+        {
+            // create a new instance of task
+            new_task = new Task();
+
+            // get the topic - using getline
+            if(stage_file.eof() == false)
+            {
+                cout << data_from_file << endl;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    catch(bad_alloc & exp) // this will take place if the task object cannot be created
+    {
+        cerr << exp.what() << endl;
+        cerr << "Cannot create task, out of memory" << endl;
+        cerr << "Cannot create anymore tasks" << endl;
+    }
+    catch(runtime_error & exp) // this will take place if date object cannot be created
+    {
+        cerr << exp.what() << endl;
+        cerr << "Cannot create anymore tasks" << endl;
+        delete new_task;
+    }
+
+    // close file
+    stage_file.close();
 }
 // this will be used to save the tasks to disk
-void Stage::save_tasks(const char * file_name)
+void Stage::save_tasks(void)
 {
+    // create string which holds file name
+    string file_name = "." + this->stage + ".data";
+    
+    // open in writing mode
+    ofstream stage_file(file_name, ios_base::out);
 
+    // if the file did not open then exit method and give appropriate message
+    if(stage_file.is_open() == false)
+    {
+        cerr << "Error in opening file to save" << endl;
+        return;
+    }
+
+    // iterate through the tasks and save each task
+    // format to save
+    /*
+        topic
+        description
+        time_allocated
+        time_taken
+        due_date - value not pointer
+    */
+    
+    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    {
+        stage_file << it->second->get_topic() << endl;
+        stage_file << it->second->get_description() << endl;
+        stage_file << it->second->get_time_allocated() << endl;
+        stage_file << it->second->get_time_taken() << endl;
+        stage_file << it->second->get_due_date()->get_date() << endl;
+    }
+
+    // close stage_file
+    stage_file.close();
 }
 
 // print a table edge with a specific character
