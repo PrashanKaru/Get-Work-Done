@@ -18,7 +18,10 @@ class Date
         // setter for date 
         void set_date_stdin(void);
 
-        // getter for day
+        // setter for date
+        void set_date(string & date);
+
+        // getter for date
         string get_date(void);
     private:
         // methods

@@ -139,7 +139,8 @@ float Task::get_time_taken(void)
 // set due_date
 void Task::set_due_date(string & due_date)
 {
-    // call method to set due date - to be written 
+    // call method to set due date
+    this->due_date->set_date(due_date);
 }
 
 // get due_date
