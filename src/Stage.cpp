@@ -1,6 +1,7 @@
 // standard include files
 #include <iostream>
 #include <fstream>
+#include <string>
 
 // personal include files
 #include "Stage.h"
@@ -98,16 +99,58 @@ void Stage::load_tasks(void)
         {
             // create a new instance of task
             new_task = new Task();
+            
+            // holds the data read from the file
+            string s_data;
 
-            // get the topic - using getline
-            if(stage_file.eof() == false)
+            // get topic from file
+            getline(stage_file, s_data);
+
+            // check to see if eof has reached
+            if(stage_file.eof() == true)
             {
-                cout << data_from_file << endl;
-            }
-            else
-            {
+                // delete object since eof has reached and exit
+                delete new_task;
                 break;
             }
+
+            // set topic
+            new_task->set_topic(s_data);
+
+            // get description from file
+            getline(stage_file, s_data);
+
+            // set description
+            new_task->set_description(s_data);
+
+            // holds the converted string read from file
+            float f_data {0.0};
+
+            // get time_allocated
+            getline(stage_file, s_data);
+
+            // convert string to float
+            f_data = stof(s_data);
+
+            // set time_allocated
+            new_task->set_time_allocated(f_data);
+
+            // get time_taken 
+            getline(stage_file, s_data);
+
+            // convert string to float
+            f_data = stof(s_data);
+
+            // set time_taken
+            new_task->set_time_taken(f_data);
+
+            // get due_date
+            getline(stage_file, s_data);
+
+            // set due_date
+            new_task->set_due_date(s_data);
+
+            tasks->insert(make_pair(hash<string>{}(new_task->get_description()), new_task));
         }
     }
     catch(bad_alloc & exp) // this will take place if the task object cannot be created
