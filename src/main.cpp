@@ -20,7 +20,9 @@ int main(void)
         cout << "1) Insert task" << endl;
         cout << "2) Remove task" << endl;
         cout << "3) Print all tasks" << endl;
-        cout << "4) Exit" << endl;
+        cout << "4) Save tasks" << endl;
+        cout << "5) Load tasks" << endl;
+        cout << "6) Exit" << endl;
         cin >> choice;
         // to ignore the \n that is present due to cin so that getline won't fail
         cin.ignore();
@@ -42,6 +44,12 @@ int main(void)
                 current->print_all_tasks();
                 break;
             case 4:
+                current->save_tasks();
+                break;
+            case 5:
+                current->load_tasks();
+                break;
+            case 6:
                 exit = true;
                 break;
             default:
