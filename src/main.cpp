@@ -22,7 +22,8 @@ int main(void)
         cout << "3) Print" << endl;
         cout << "4) Save tasks" << endl;
         cout << "5) Load tasks" << endl;
-        cout << "6) Exit" << endl;
+        cout << "6) Modify tasks" << endl;
+        cout << "7) Exit" << endl;
         cin >> choice;
         // to ignore the \n that is present due to cin so that getline won't fail
         cin.ignore();
@@ -103,6 +104,14 @@ int main(void)
                 current->load_tasks();
                 break;
             case 6:
+            {
+                size_t id {0};
+                cout << "Task to modify: ";
+                cin >> id;
+                current->modify_task(id);
+            }
+                break;
+            case 7:
                 exit = true;
                 break;
             default:
