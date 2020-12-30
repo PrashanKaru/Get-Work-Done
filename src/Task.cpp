@@ -113,9 +113,18 @@ string Task::get_description(void)
 }
 
 // set time_allocated
-void Task::set_time_allocated(float & time_allocated)
+bool Task::set_time_allocated(float & time_allocated)
 {
-    this->time_allocated = time_allocated;
+    // if the given value is less than zero then return false since negative is not possible
+    if(time_allocated < 0)
+    {
+        return false;
+    }
+    else
+    {
+        this->time_allocated = time_allocated;
+        return true;
+    }
 }
 
 // get time_allocated
@@ -125,9 +134,18 @@ float Task::get_time_allocated(void)
 }
 
 // set time_taken
-void Task::set_time_taken(float & time_taken)
+bool Task::set_time_taken(float & time_taken)
 {
-    this->time_taken = time_taken;
+    // if the given value is less than zero then return false since negative is not possible
+    if(time_taken < 0)
+    {
+        return false;
+    }
+    else
+    {
+        this->time_taken = time_taken;
+        return true;    
+    }
 }
 
 // get time_taken
