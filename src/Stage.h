@@ -14,6 +14,11 @@ class Stage
 {
     public:
         // constructor
+
+        // no parameter constructor used for arrays
+        Stage();
+
+        // single paramter constructor
         Stage(string stage);
 
         // methods
@@ -21,29 +26,23 @@ class Stage
         // insert new task by providing the information
         void insert_task(size_t id, Task * task_to_insert);
         
-        // insert new task from stdin
-        void insert_task(void);
-        
-        // transfer task
-        void transfer_task(Stage & dest, size_t id);
-
         // remove task
-        void remove_task(size_t id);
+        virtual void remove_task(size_t id);
 
         // modify task
-        void modify_task(size_t id);
+        virtual void modify_task(size_t id);
         
         // this will be used to load the tasks from disk
-        void load_tasks(void);
+        virtual void load_tasks(void);
         
         // this will be used to save the tasks to disk
-        void save_tasks(void);
+        virtual void save_tasks(void);
         
         // print a table edge with a specific character
         void print_table_edge(const char character, const unsigned short horizontal_line_length);
         
         // print a single task
-        void print_task(unordered_map<size_t, Task *>::const_iterator current_task);
+        virtual void print_task(unordered_map<size_t, Task *>::const_iterator current_task);
         
         // print all tasks
         void print_all_tasks(void);
@@ -60,8 +59,25 @@ class Stage
         // print based on ID
         void print_ID(size_t & ID);
 
+        // print menu for current menu and perform action per user request
+        virtual void menu(void) = 0;
+
+        // method for printing all print options available and printing
+        void print(void);
+
+        // check to see if the passed id exist in the tasks or not
+        unordered_map<size_t, Task *>::const_iterator find_id(size_t id);
+
+        // accessors
+
+        // get stage
+        string get_stage(void);
+        
+        // get tasks pointer
+        unordered_map<size_t, Task *> * get_tasks(void);
+
         // destructor
-        ~Stage();
+        virtual ~Stage();
     private:
         unordered_map<size_t, Task *> * tasks;
         string stage;
