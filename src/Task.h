@@ -36,13 +36,13 @@ class Task
         string get_description(void);
 
         // set time_allocated
-        void set_time_allocated(float & time_allocated);
+        bool set_time_allocated(float & time_allocated);
 
         // get time_allocated
         float get_time_allocated(void);
 
         // set time_taken
-        void set_time_taken(float & time_taken);
+        bool set_time_taken(float & time_taken);
 
         // get time_taken
         float get_time_taken(void);

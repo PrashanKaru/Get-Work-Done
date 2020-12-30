@@ -52,7 +52,7 @@ string Date::get_date(void)
 // setter for date
 void Date::set_date(string & date)
 {
-    sscanf(date.c_str(), "%hu/%hu/%hu", this->day, this->month, this->year);
+    sscanf(date.c_str(), "%hu/%hu/%hu", &this->day, &this->month, &this->year);
 }
 
 void Date::get_value(string user_prompt, string error_message, unsigned short min, unsigned short max, unsigned short & value)
