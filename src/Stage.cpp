@@ -23,7 +23,13 @@ stage(stage)
 }
 
 // methods
-// insert new task
+// insert new task by providing the information
+void Stage::insert_task(size_t id, Task * task_to_insert)
+{
+    this->tasks->insert(make_pair(id, task_to_insert));
+}
+
+// insert new task from stdin
 void Stage::insert_task(void)
 {
     Task * new_task = nullptr;
@@ -56,23 +62,24 @@ void Stage::insert_task(void)
     }
 }
 
-// remove task
-void Stage::remove_task(size_t id)
+// transfer task
+void Stage::transfer_task(Stage & dest, size_t id)
 {
     // check to see if the key exists in the map
-    unordered_map<size_t, Task*>::const_iterator item_to_remove = tasks->find(id);
+    unordered_map<size_t, Task*>::const_iterator item_to_remove = this->tasks->find(id);
     if(item_to_remove == tasks->end())
     {
-        cerr << "Item does not exist" << endl;
+        cerr << "Task does not exist" << endl;
+        return;
     }
-    else
-    {
-        // delete the memory allocated for the Task
-        delete item_to_remove->second;
 
-        // erase using key
-        tasks->erase(id);
-    }
+    // transfer the task from this Stage to dest Stage
+
+    // therefore insert task in dest Stage and erase from this stage
+    dest.insert_task(item_to_remove->first, item_to_remove->second);
+
+    // erase using const_iterator from earlier
+    this->tasks->erase(item_to_remove);
 }
 
 // this will be used to load the tasks from disk
