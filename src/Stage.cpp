@@ -82,6 +82,104 @@ void Stage::transfer_task(Stage & dest, size_t id)
     this->tasks->erase(item_to_remove);
 }
 
+// remove task
+void Stage::remove_task(size_t id)
+{
+    // check to see if the key exists in the map
+    unordered_map<size_t, Task*>::const_iterator item_to_remove = tasks->find(id);
+    if(item_to_remove == tasks->end())
+    {
+        cerr << "Item does not exist" << endl;
+    }
+    else
+    {
+        // delete the memory allocated for the Task
+        delete item_to_remove->second;
+
+        // erase using key
+        tasks->erase(id);
+    }
+}
+
+// modify task
+void Stage::modify_task(size_t id)
+{
+    // check to see if the item exists
+    unordered_map<size_t, Task *>::const_iterator item_to_modify = tasks->find(id);
+    if(item_to_modify == tasks->end())
+    {
+        cerr << "Item does not exist" << endl;
+        return;
+    }
+
+    int choice {0};
+    // present options
+    cout << "Choose option to modify" << endl;
+    cout << "1) Topic" << endl;
+    cout << "2) Description" << endl;
+    cout << "3) Time Allocated" << endl;
+    cout << "4) Due Date" << endl;
+    cout << "5) Back" << endl;
+    cout << "Enter choice: ";
+    cin >> choice;
+    cin.ignore();
+
+    string s_data;
+    float f_data;
+
+    switch(choice)
+    {
+    case 1:
+        // rename topic
+        cout << "Rename topic: ";
+        getline(cin, s_data);
+        // modify topic to new topic
+        item_to_modify->second->set_topic(s_data);
+        cout << "Topic renamed" << endl;
+        break;
+    case 2:
+        // rename description
+        cout << "Rename description: ";
+        getline(cin, s_data);
+        // modify description to new description
+        item_to_modify->second->set_description(s_data);
+        cout << "Description renamed" << endl;
+        break;
+    case 3:
+    {
+        // reset time_allocated
+        cout << "Reset time allocated: ";
+        cin >> f_data;
+        // modify time allocated to new time allocated
+        bool success = item_to_modify->second->set_time_allocated(f_data);
+        // check to see if the time_allocated was successful or not
+        if(success == true)
+        {
+            cout << "Time allocated reset" << endl;
+        }
+        else
+        {
+            cout << "Invalid time given for allocated time, therefore not set" << endl;
+        }
+    }
+        break;
+    case 4:
+        // reset due_date
+        cout << "Reset due date: ";
+        getline(cin, s_data);
+        // modifiy due date to new due date
+        item_to_modify->second->get_due_date()->set_date(s_data);
+        cout << "Due date renamed" << endl;
+        break;
+    case 5:
+        cout << "Going back ..." << endl;
+        break;
+    default:
+        cout << "Option does not exist" << endl;
+        break;
+    }
+}
+
 // this will be used to load the tasks from disk
 void Stage::load_tasks(void)
 {

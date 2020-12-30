@@ -26,6 +26,12 @@ class Stage
         
         // transfer task
         void transfer_task(Stage & dest, size_t id);
+
+        // remove task
+        void remove_task(size_t id);
+
+        // modify task
+        void modify_task(size_t id);
         
         // this will be used to load the tasks from disk
         void load_tasks(void);
