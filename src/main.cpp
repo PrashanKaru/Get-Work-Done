@@ -8,8 +8,8 @@ using namespace std;
 
 int main(void)
 {
-    string stage("current");
-    Stage * current = new Stage(stage);
+    Stage * current = new Stage("current");
+    Stage * ongoing = new Stage("ongoing");
 
     bool exit = false;
     int choice = 0;
@@ -18,7 +18,7 @@ int main(void)
     {
         cout << "Menu" << endl;
         cout << "1) Insert task" << endl;
-        cout << "2) Remove task" << endl;
+        cout << "2) Transfer task" << endl;
         cout << "3) Print" << endl;
         cout << "4) Save tasks" << endl;
         cout << "5) Load tasks" << endl;
@@ -37,7 +37,9 @@ int main(void)
                 size_t ID = 0;
                 cout << "Enter ID to remove" << endl;
                 cin >> ID;
-                current->remove_task(ID);
+                current->transfer_task(*ongoing, ID);
+                cout << "printing all contents of ongoing" << endl;
+                ongoing->print_all_tasks();
             }
                 break;
             case 3:
@@ -108,7 +110,7 @@ int main(void)
                 break;
         }
     }
-
+    delete ongoing;
     delete current;
     return 0;
 }
