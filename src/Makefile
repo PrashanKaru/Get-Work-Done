@@ -16,6 +16,9 @@ EXE = get_work_done
 
 all: $(EXE)
 
+debug: $(OBJS)
+	$(CC) -g $(CPPFLAGS) $(OBJS) -o $(EXE)
+
 $(EXE): $(OBJS) 
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(EXE)
 
