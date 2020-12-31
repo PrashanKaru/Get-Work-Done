@@ -4,13 +4,14 @@
 
 // own include files
 #include "Stage.h"
+#include "Ongoing.h"
 #include "Backlog.h"
 #include "Done.h"
 
 using namespace std;
 
 // transfer task
-void transfer_task(Stage ** src, vector<string> & list_stages)
+void transfer_task(Stage ** src, vector<string> & list_stages, int stage_limit)
 {
     // print menu to ask user where to transfer new task to
     cout << "Stages" << endl;
@@ -56,6 +57,23 @@ void transfer_task(Stage ** src, vector<string> & list_stages)
     // get the time allocated for current task
     float time_allocated = item_to_remove->second->get_time_allocated();
 
+    // check if to_stage is today or ongoing and if so first check to see if the new addition of task will be greater than max limit for both stages and if so exit else add task
+
+    // check to see if to_stage is less than or equal to stage_limit
+    // if so, indicates that the stage is either Today or Ongoing
+    if(to_stage -  1 <= stage_limit)
+    {
+        // create a static cast Ongoing*
+        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[to_stage - 1]);
+
+        // check to see if the time_allocated and current_allocated time summed together is greater than the max_allocated_time, if so max_allocated_time does not add this task and exit
+        if(time_allocated + a_ongoing_stage->get_current_allocated_time() > a_ongoing_stage->get_max_allocated_time())
+        {
+            cout << "Current task will exceed maximum allocated time" << endl;
+            return;
+        }
+    }
+
     // transfer the task from this Stage to dest Stage
 
     // therefore insert task in dest Stage and erase from this stage
@@ -63,21 +81,44 @@ void transfer_task(Stage ** src, vector<string> & list_stages)
 
     // erase using const_iterator from earlier
     src[from_stage - 1]->get_tasks()->erase(item_to_remove);
+
+    // check if from_stage is today or ongoing
+    if(from_stage - 1 <= stage_limit)   // Today or Ongoing
+    {
+        // perform static cast
+        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[from_stage - 1]);
+        // update the current_allocated_time 
+        // since the task was transfered from Today or Ongoing, the current_allocated_time needs to be decreased
+        a_ongoing_stage->decrease_current_allocated_time(time_allocated);
+    }
+    
+    // check if to_stage is today or ongoing
+    if(to_stage - 1 <= stage_limit)   // today
+    {
+        // perform static cast
+        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[to_stage - 1]);
+        // update the current_allocated_time 
+        // since the task was transfered to Today or Ongoing, the current_allocated_time needs to be increased
+        a_ongoing_stage->increase_current_allocated_time(time_allocated);
+    }
 }
 
 int main(void)
 {
-    Stage ** current = new Stage * [2];
-    current[0] = new Backlog(); // backlog
-    current[1] = new Done();    // done
+    const int current_size = 3;
+    Stage ** current = new Stage * [current_size];
+    current[0] = new Ongoing(); // Ongoing
+    current[1] = new Backlog(); // backlog
+    current[2] = new Done();    // done
     
     // load all data from disk to memory
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < current_size; i++)
     {
         current[i]->load_tasks();
     }
 
     vector<string> list_stages;
+    list_stages.push_back("Ongoing");
     list_stages.push_back("Backlog");
     list_stages.push_back("Done");
 
@@ -114,13 +155,13 @@ int main(void)
                     cout << "Does not exist yet" << endl;
                     break;
                 case 2:
-                    cout << "Does not exist yet" << endl;
-                    break;
-                case 3:
                     current[0]->menu();
                     break;
-                case 4:
+                case 3:
                     current[1]->menu();
+                    break;
+                case 4:
+                    current[2]->menu();
                     break;
                 case 5:
                     cout << "Go back ..." << endl;
@@ -132,14 +173,14 @@ int main(void)
                 break;
             case 2:
                 // print all tasks in each stage
-                for(int i = 0; i < 2; i++)
+                for(int i = 0; i < current_size; i++)
                 {
                     cout << current[i]->get_stage() << endl;
                     current[i]->print_all_tasks();
                 }
                 break;
             case 3:
-                transfer_task(current, list_stages);
+                transfer_task(current, list_stages, 0);
                 break;
             case 4:
                 exit = true;
@@ -151,7 +192,7 @@ int main(void)
     }
 
     // save all data in memory to disk
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < current_size; i++)
     {
         current[i]->save_tasks();
     }
@@ -159,6 +200,7 @@ int main(void)
     // delete backlog and done
     delete current[0];
     delete current[1];
+    delete current[2];
     // delete current
     delete [] current;
     return 0;
