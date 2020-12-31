@@ -93,9 +93,10 @@ void Backlog::menu(void)
     int choice {0};
     cout << "Backlog Menu" << endl;
     cout << "1) Insert task" << endl;
-    cout << "2) Modify tasks" << endl;
-    cout << "3) Print" << endl;
-    cout << "4) Go back" << endl;
+    cout << "2) Modify task" << endl;
+    cout << "3) Remove task" << endl;
+    cout << "4) Print" << endl;
+    cout << "5) Go back" << endl;
     cout << "Enter choice: ";
     cin >> choice;
 
@@ -114,9 +115,14 @@ void Backlog::menu(void)
         modify_task(id);
         break;
     case 3:
-        print();
+        cout << "ID of task to remove: ";
+        cin >> id;
+        remove_task(id);
         break;
     case 4:
+        print();
+        break;
+    case 5:
         cout << "Going back ..." << endl;
         break;
     default:
