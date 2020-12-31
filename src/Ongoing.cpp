@@ -6,11 +6,21 @@
 #include "Ongoing.h"
 
 // constructor
+        
+// no parameter constructor
 Ongoing::Ongoing():
-Stage("ongoing"), max_allocated_time(0.0), current_allocated_time(0.0)
+Ongoing("ongoing") 
 {
 
 }
+
+// constructor with parameter that allows setting the stage field from Stage Class
+Ongoing::Ongoing(string src):
+Stage(src), max_allocated_time(0.0), current_allocated_time(0.0)
+{
+
+}
+
 
 // methods
 

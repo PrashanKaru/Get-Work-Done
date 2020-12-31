@@ -10,7 +10,12 @@ class Ongoing : public Stage
 {
     public:
         // constructor
+        
+        // no parameter constructor
         Ongoing();
+        
+        // constructor with parameter that allows setting the stage field from Stage Class
+        Ongoing(string src);
 
         // methods
 
@@ -25,7 +30,7 @@ class Ongoing : public Stage
         virtual void save_tasks(void) override;
 
         // print menu for current menu and perform action per user request
-        virtual void menu(void) override final;
+        virtual void menu(void) override;
 
         // increase the current_allocated_time with the value provided as a parameter to the method
         void increase_current_allocated_time(float time_allocated);
