@@ -54,6 +54,8 @@ void Task::set_task_stdin(void)
 {
     string s_data;
 
+    // to ignore the \n that is present due to cin so that getline won't fail
+    cin.ignore();
     // set topic
     cout << "Enter topic: ";
     getline(cin, s_data);

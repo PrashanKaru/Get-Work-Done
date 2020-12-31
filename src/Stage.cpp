@@ -9,6 +9,14 @@
 using namespace std;
         
 // constructor
+
+// no parameter constructor used for arrays
+Stage::Stage()
+{
+
+}
+
+// single paramter constructor
 Stage::Stage(string stage):
 stage(stage)
 {
@@ -27,59 +35,6 @@ stage(stage)
 void Stage::insert_task(size_t id, Task * task_to_insert)
 {
     this->tasks->insert(make_pair(id, task_to_insert));
-}
-
-// insert new task from stdin
-void Stage::insert_task(void)
-{
-    Task * new_task = nullptr;
-    try
-    {
-        // create default Task
-        new_task = new Task();
-
-        // get info about task from stdin
-        cout << "Set details of new task" << endl;
-        new_task->set_task_stdin();
-
-        // add task to unordered_map
-        // key - hashed task->description
-        // value - new_task
-        cout << "Inserting task" << endl;
-        tasks->insert(make_pair(hash<string>{}(new_task->get_description()), new_task));
-    }
-    catch(bad_alloc & exp) // this will take place if the task object cannot be created
-    {
-        cerr << exp.what() << endl;
-        cerr << "Cannot create task, out of memory" << endl;
-        cerr << "Cannot create anymore tasks" << endl;
-    }
-    catch(runtime_error & exp) // this will take place if date object cannot be created
-    {
-        cerr << exp.what() << endl;
-        cerr << "Cannot create anymore tasks" << endl;
-        delete new_task;
-    }
-}
-
-// transfer task
-void Stage::transfer_task(Stage & dest, size_t id)
-{
-    // check to see if the key exists in the map
-    unordered_map<size_t, Task*>::const_iterator item_to_remove = this->tasks->find(id);
-    if(item_to_remove == tasks->end())
-    {
-        cerr << "Task does not exist" << endl;
-        return;
-    }
-
-    // transfer the task from this Stage to dest Stage
-
-    // therefore insert task in dest Stage and erase from this stage
-    dest.insert_task(item_to_remove->first, item_to_remove->second);
-
-    // erase using const_iterator from earlier
-    this->tasks->erase(item_to_remove);
 }
 
 // remove task
@@ -106,6 +61,8 @@ void Stage::modify_task(size_t id)
 {
     // check to see if the item exists
     unordered_map<size_t, Task *>::const_iterator item_to_modify = tasks->find(id);
+    
+    // check if the item does not exist and print message and exit
     if(item_to_modify == tasks->end())
     {
         cerr << "Item does not exist" << endl;
@@ -138,12 +95,23 @@ void Stage::modify_task(size_t id)
         cout << "Topic renamed" << endl;
         break;
     case 2:
+    {
         // rename description
         cout << "Rename description: ";
         getline(cin, s_data);
-        // modify description to new description
+
+        // rename with new description
         item_to_modify->second->set_description(s_data);
+
+        // get the current task *, this is because description determines the key and hence needs to be recomputed and inserted into the unordered_map and item_to_modify needs to be removed
+        Task * new_task = item_to_modify->second;
+        
+        tasks->insert(make_pair(hash<string>{}(new_task->get_description()), new_task));
+
+        // erase the previous version of the task
+        tasks->erase(item_to_modify);
         cout << "Description renamed" << endl;
+    }
         break;
     case 3:
     {
@@ -427,6 +395,87 @@ void Stage::print_ID(size_t & ID)
             print_task(it);
         }
     }
+}
+
+// method for printing all print options available and printing
+void Stage::print(void)
+{
+    int choice {0};
+    cout << "Print Menu: " + this->stage << endl;
+    cout << "1) Print All" << endl;
+    cout << "2) Print topic" << endl;
+    cout << "3) Print due date" << endl;
+    cout << "4) Print time allocated" << endl;
+    cout << "5) Print ID" << endl;
+    cout << "6) Back" << endl;
+    cout << "Enter choice: ";
+    cin >> choice;
+    
+    switch(choice)
+    {
+        case 1:
+            this->print_all_tasks();
+            break;
+        case 2:
+        {
+            string topic;
+            cout << "Enter topic: ";
+            cin >> topic;
+            this->print_specific_topic(topic);
+        }
+            break;
+        case 3:
+        {
+            string due_date;
+            cout << "Enter due date: ";
+            cin >> due_date;
+            this->print_specific_due_date(due_date);
+        }
+            break;
+        case 4:
+        {
+            float time_allocated {0.0};
+            cout << "Enter time allocated: ";
+            cin >> time_allocated;
+            this->print_specific_time_allocated(time_allocated);
+        }
+            break;
+        case 5:
+        {
+            size_t ID;
+            cout << "Enter ID: ";
+            cin >> ID;
+            this->print_ID(ID);
+        }
+            break;
+        case 6:
+            cout << "Going back ..." << endl;
+            break;
+        default:
+            cout << "Choice does not exist" << endl;
+            break;
+    }
+}
+
+
+// check to see if the passed id exist in the tasks or not
+unordered_map<size_t, Task *>::const_iterator Stage::find_id(size_t id)
+{
+    return tasks->find(id);
+}
+
+// accessors
+
+// get stage
+string Stage::get_stage(void)
+{
+    return this->stage;
+}
+
+// get tasks pointer
+unordered_map<size_t, Task *> * Stage::get_tasks(void)
+{
+    return this->tasks;
 }
 
 // destructor
