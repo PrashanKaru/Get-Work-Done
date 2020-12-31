@@ -4,6 +4,7 @@
 
 // own include files
 #include "Stage.h"
+#include "Today.h"
 #include "Ongoing.h"
 #include "Backlog.h"
 #include "Done.h"
@@ -32,6 +33,10 @@ void transfer_task(Stage ** src, vector<string> & list_stages, int stage_limit)
     cin >> from_stage;
     cout << "Enter stage to transfer to: ";
     cin >> to_stage;
+
+    // subtract to later compare with index
+    from_stage--;
+    to_stage--;
     
     // compare to see if the stages are the same, if so print error message and return
     if(from_stage == to_stage)
@@ -39,16 +44,21 @@ void transfer_task(Stage ** src, vector<string> & list_stages, int stage_limit)
         cout << "Cannot transfer to same stage" << endl;
         return;
     }
+    else if(from_stage == 3)    // if the Stage is Done then cannot transfer from it
+    {
+        cout << "Cannot transfer from Done" << endl;
+        return;
+    }
 
     // get ID of task to remove
     size_t id {0};
-    cout << "Enter ID of task to transfer from " + list_stages[from_stage - 1] + " to " + list_stages[to_stage - 1] << endl;
+    cout << "Enter ID of task to transfer from " + list_stages[from_stage] + " to " + list_stages[to_stage] << endl;
     cin >> id;
 
     // check to see if the key exists in the map
-    unordered_map<size_t, Task*>::const_iterator item_to_remove = src[from_stage - 1]->find_id(id);
+    unordered_map<size_t, Task*>::const_iterator item_to_remove = src[from_stage]->find_id(id);
 
-    if(item_to_remove == src[from_stage - 1]->get_tasks()->end())
+    if(item_to_remove == src[from_stage]->get_tasks()->end())
     {
         cerr << "Task does not exist" << endl;
         return;
@@ -61,10 +71,10 @@ void transfer_task(Stage ** src, vector<string> & list_stages, int stage_limit)
 
     // check to see if to_stage is less than or equal to stage_limit
     // if so, indicates that the stage is either Today or Ongoing
-    if(to_stage -  1 <= stage_limit)
+    if(to_stage <= stage_limit)
     {
         // create a static cast Ongoing*
-        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[to_stage - 1]);
+        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[to_stage]);
 
         // check to see if the time_allocated and current_allocated time summed together is greater than the max_allocated_time, if so max_allocated_time does not add this task and exit
         if(time_allocated + a_ongoing_stage->get_current_allocated_time() > a_ongoing_stage->get_max_allocated_time())
@@ -77,26 +87,26 @@ void transfer_task(Stage ** src, vector<string> & list_stages, int stage_limit)
     // transfer the task from this Stage to dest Stage
 
     // therefore insert task in dest Stage and erase from this stage
-    src[to_stage - 1]->insert_task(item_to_remove->first, item_to_remove->second);
+    src[to_stage]->insert_task(item_to_remove->first, item_to_remove->second);
 
     // erase using const_iterator from earlier
-    src[from_stage - 1]->get_tasks()->erase(item_to_remove);
+    src[from_stage]->get_tasks()->erase(item_to_remove);
 
     // check if from_stage is today or ongoing
-    if(from_stage - 1 <= stage_limit)   // Today or Ongoing
+    if(from_stage <= stage_limit)   // Today or Ongoing
     {
         // perform static cast
-        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[from_stage - 1]);
+        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[from_stage]);
         // update the current_allocated_time 
         // since the task was transfered from Today or Ongoing, the current_allocated_time needs to be decreased
         a_ongoing_stage->decrease_current_allocated_time(time_allocated);
     }
     
     // check if to_stage is today or ongoing
-    if(to_stage - 1 <= stage_limit)   // today
+    if(to_stage <= stage_limit)   // today
     {
         // perform static cast
-        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[to_stage - 1]);
+        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (src[to_stage]);
         // update the current_allocated_time 
         // since the task was transfered to Today or Ongoing, the current_allocated_time needs to be increased
         a_ongoing_stage->increase_current_allocated_time(time_allocated);
@@ -105,11 +115,12 @@ void transfer_task(Stage ** src, vector<string> & list_stages, int stage_limit)
 
 int main(void)
 {
-    const int current_size = 3;
+    const int current_size = 4;
     Stage ** current = new Stage * [current_size];
-    current[0] = new Ongoing(); // Ongoing
-    current[1] = new Backlog(); // backlog
-    current[2] = new Done();    // done
+    current[0] = new Today(); // Ongoing
+    current[1] = new Ongoing(); // Ongoing
+    current[2] = new Backlog(); // backlog
+    current[3] = new Done();    // done
     
     // load all data from disk to memory
     for(int i = 0; i < current_size; i++)
@@ -118,6 +129,7 @@ int main(void)
     }
 
     vector<string> list_stages;
+    list_stages.push_back("Today");
     list_stages.push_back("Ongoing");
     list_stages.push_back("Backlog");
     list_stages.push_back("Done");
@@ -152,16 +164,16 @@ int main(void)
                 switch(choice)
                 {
                 case 1:
-                    cout << "Does not exist yet" << endl;
-                    break;
-                case 2:
                     current[0]->menu();
                     break;
-                case 3:
+                case 2:
                     current[1]->menu();
                     break;
-                case 4:
+                case 3:
                     current[2]->menu();
+                    break;
+                case 4:
+                    current[3]->menu();
                     break;
                 case 5:
                     cout << "Go back ..." << endl;
@@ -180,7 +192,7 @@ int main(void)
                 }
                 break;
             case 3:
-                transfer_task(current, list_stages, 0);
+                transfer_task(current, list_stages, 1);
                 break;
             case 4:
                 exit = true;
@@ -201,6 +213,7 @@ int main(void)
     delete current[0];
     delete current[1];
     delete current[2];
+    delete current[3];
     // delete current
     delete [] current;
     return 0;
