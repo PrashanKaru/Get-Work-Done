@@ -27,10 +27,10 @@ class Stage
         void insert_task(size_t id, Task * task_to_insert);
         
         // remove task
-        virtual void remove_task(size_t id);
+        virtual void remove_task(void);
 
         // modify task
-        virtual void modify_task(size_t id);
+        virtual void modify_task(void);
         
         // this will be used to load the tasks from disk
         virtual void load_tasks(void);
@@ -48,16 +48,16 @@ class Stage
         void print_all_tasks(void);
         
         // print based on topic
-        void print_specific_topic(string & topic);
+        void print_specific_topic(void);
         
         // print based on due date
-        void print_specific_due_date(string & due_date);
+        void print_specific_due_date(void);
         
         // print based on time allocated
-        void print_specific_time_allocated(float & time_allocated);
+        void print_specific_time_allocated(void);
         
         // print based on ID
-        void print_ID(size_t & ID);
+        void print_id(void);
 
         // print menu for current menu and perform action per user request
         virtual void menu(void) = 0;

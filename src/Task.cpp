@@ -4,6 +4,7 @@
 
 // own include files
 #include "Task.h"
+#include "input.cpp"
 
 using namespace std;
 
@@ -62,32 +63,57 @@ void Task::set_task_stdin(void)
 
     this->topic = s_data;
 
+    cout << endl;
+
     // set description
     cout << "Enter description: ";
     getline(cin, s_data);
 
     this->description = s_data;
+
+    cout << endl;
     
     float f_data;
 
-    // set time_allocated
-    cout << "Enter time allocated: ";
-    cin >> f_data;
+    bool got_it = false;
 
-    // check to see if the time is only positive and not negative
-    while(f_data < 0)
+    while(got_it == false)
     {
-        cout << "Please enter a positive time\n";
-        cout << "Enter time allocated: ";
-        cin >> f_data;
+        // get input from stdin and if true returned then valid input given
+        while(get_from_stdin<float> ("Enter time allocated: ", f_data) == false)
+        {
+            cout << endl;
+            cout << "Invalid input given" << endl;
+            cout << "Try again" << endl;
+            cout << endl;
+        }
+
+        // check to see if the time is only positive and not negative
+        if(f_data < 0)
+        {
+            cout << endl;
+            cout << "Entered time was negative" << endl;
+            cout << "Try again" << endl;
+            cout << endl;
+        }
+        else
+        {
+            got_it = true;
+        }
     }
 
     this->time_allocated = f_data;
 
-    cout << "Set due date" << endl;
+    cout << endl;
+
+    cout << "Time to set due date" << endl;
+
+    cout << endl;
 
     // set all fields in due_date
     due_date->set_date_stdin();
+
+    cout << endl;
 }
 
 // set topic

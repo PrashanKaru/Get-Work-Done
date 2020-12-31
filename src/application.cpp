@@ -8,10 +8,11 @@
 #include "Ongoing.h"
 #include "Backlog.h"
 #include "Done.h"
+#include "input.cpp"
 
 // constructor 
 application::application():
-num_of_stages(4)
+num_of_stages(4)    // set the number of stages to be 4 since there are 4 stages, today, ongoing, backlog & done
 {
     // created a array of pointers on the heap and store address in stages
     try
@@ -106,58 +107,164 @@ void application::run(void)
     // used to hold the choice from the user via stdin
     int choice {0};
 
+    // use to clear variable
+    char in {0};
+    
+    // placed for visual purpose
+    cout << endl;
+
     // main program loop
     while(exit == false)
     {
-        cout << "Menu" << endl;
+        cout << "*********Menu*********" << endl;
         cout << "1) Stage" << endl;
         cout << "2) Transfer task" << endl;
-        cout << "3) Print all stages" << endl;
-        cout << "4) Exit" << endl;
-        cin >> choice;
+        cout << "3) Set Maximum Allocated Time" << endl;
+        cout << "4) Print all stages" << endl;
+        cout << "5) Exit" << endl;
+        cout << "**********************\n" << endl;
+
+        get_from_stdin<int> ("Enter choice: ", choice);
+
+        // placed for visual purpose
+        cout << endl;
 
         switch(choice)
         {
             case 1:
-                cout << "Choose Stage" << endl;
-                cout << "1) Today" << endl;
-                cout << "2) Ongoing" << endl;
-                cout << "3) Backlog" << endl;
-                cout << "4) Done" << endl;
-                cout << "5) Go back" << endl;
-                cout << "Stage: ";
-                cin >> choice;
+                while(true)
+                {
+                    cout << "*****Choose Stage*****" << endl;
+                    cout << "1) Today" << endl;
+                    cout << "2) Ongoing" << endl;
+                    cout << "3) Backlog" << endl;
+                    cout << "4) Done" << endl;
+                    cout << "5) Go back" << endl;
+                    cout << "**********************\n" << endl;
+                    
+                    get_from_stdin<int> ("Enter choice: ", choice);
 
-                // check if choice is between and including 1 and 4
-                if(choice >= 1 && choice <= 4)
-                {
-                    stages[choice - 1]->menu();
-                }
-                else if(choice == 5)
-                {
-                    cout << "Go back ..." << endl;
-                }
-                else
-                {
-                    cout << "Choice does not exist" << endl;
+                    // placed for visual purpose
+                    cout << endl;
+
+                    // check if choice is between and including 1 and 4
+                    if(choice >= 1 && choice <= 4)
+                    {
+                        stages[choice - 1]->menu();
+                    }
+                    else if(choice == 5)
+                    {
+                        cout << "Going back ..." << endl;
+                        // placed for visual purpose
+                        cout << endl;
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Choice does not exist" << endl;
+                        // placed for visual purpose
+                        cout << endl;
+                    }
                 }            
                 break;
             case 2:
                 transfer_task();
                 break;
             case 3:
-                // print all tasks in each stage
-                for(int i = 0; i < num_of_stages; i++)
+                cout << "*******Choose Stage*******" << endl;
+                cout << "1) Today" << endl;
+                cout << "2) Ongoing" << endl;
+                cout << "**************************\n" << endl;
+                
+                get_from_stdin<int> ("Enter choice: ", choice);
+
+                // placed for visual purpose
+                cout << endl;
+
+                // check if choice is between and including 1 and 4
+                if(choice == 1 || choice == 2)
                 {
-                    cout << stages[i]->get_stage() << endl;
-                    stages[i]->print_all_tasks();
+                    // perform static cast since it is an Ongoing object
+                    Ongoing * an_ongoing_stage = static_cast<Ongoing *> (stages[choice - 1]);
+
+                    cout << "Currently set maximum allocated time is " << an_ongoing_stage->get_max_allocated_time() << endl;
+                    cout << endl;
+                    
+                    // hold data for max ongoing time
+                    float new_max_ongoing_time {0.0};
+
+                    // get input from stdin and if true returned then valid input given
+                    if(get_from_stdin<float> ("Enter new maximum allocated time: ", new_max_ongoing_time) == true)
+                    {                    
+                        // since input was valid, try setting the value
+                        // if the result of max_allocated_time is less than zero a false is returned as time cannot be negative
+                        if(an_ongoing_stage->set_max_allocated_time(new_max_ongoing_time) == false)
+                        {
+                            cout << "Maximum allocated time cannot be less than 0" << endl;
+                            cout << endl;
+                        }
+                        else
+                        {
+                            cout << "Maximum allocated time has successfully been set" << endl;
+                            cout << endl;
+                        }
+                        
+                    }
+                    else // else tell user invalid value given. This is for input like "absd"
+                    {
+                        cout << "Invalid input given" << endl;
+                        cout << endl;
+                    }
+                }
+                else
+                {
+                    cout << "Choice does not exist" << endl;
+                    // placed for visual purpose
+                    cout << endl;
                 }
                 break;
             case 4:
+                // print all tasks in each stage
+                for(int i = 0; i < num_of_stages; i++)
+                {
+                    // check if there are any tasks in stage and if not print message and move onto next stage
+                    if(stages[i]->get_tasks()->empty() == true)
+                    {
+                        // print border
+                        stages[i]->print_table_edge('*', 50);
+
+                        // print stage in upper case
+                        for(auto & c : stages[i]->get_stage())
+                        {
+                            cout << char(c ^ ' ');
+                        }
+                        cout << endl;
+
+                        // print another border
+                        stages[i]->print_table_edge('*', 50);
+                        cout << "No tasks in " << stages[i]->get_stage() << endl;
+                        stages[i]->print_table_edge('=', 50);
+                        cout << endl;
+                        cout << endl;
+                        cout << endl;
+                    }
+                    else
+                    {
+                        // if there are tasks in stage then print all tasks in that stage
+                        stages[i]->print_all_tasks();
+                    }
+                }
+                break;
+            case 5:
                 exit = true;
+                cout << "Exiting ..." << endl;
+                // placed for visual purpose
+                cout << endl;
                 break;
             default:
-                cout << "Invalid choice" << endl;
+                cout << "Choice does not exist" << endl;
+                // placed for visual purpose
+                cout << endl;
                 break;
         }
     }
@@ -173,7 +280,7 @@ void application::run(void)
 void application::transfer_task(void)
 {
     // print menu to ask user where to transfer new task to
-    cout << "Stages" << endl;
+    cout << "*******Stages*******" << endl;
     int choice {1};
     for(auto & i:stages_in_app)
     {
@@ -183,15 +290,31 @@ void application::transfer_task(void)
         cout << ") " + i << endl;
         choice++;
     }
+    cout << "********************\n" << endl;
 
     int stage_limit {1};
     int from_stage {0};
     int to_stage {0};
-    
-    cout << "Enter stage to transfer from: ";
-    cin >> from_stage;
-    cout << "Enter stage to transfer to: ";
-    cin >> to_stage;
+
+    // get input from stdin and if true returned then valid input given
+    if(get_from_stdin<int> ("Enter stage to transfer from: ", from_stage) == false)
+    {
+        cout << endl;
+        cout << "Invalid input given, exiting transfer task" << endl;
+        cout << endl;
+        return;
+    }
+
+    // get input from stdin and if true returned then valid input given
+    if(get_from_stdin<int> ("Enter stage to transfer to: ", to_stage) == false)
+    {
+        cout << endl;
+        cout << "Invalid input given, exiting transfer task" << endl;
+        cout << endl;
+        return;
+    }
+
+    cout << endl;
 
     // subtract to later compare with index
     from_stage--;
@@ -201,25 +324,37 @@ void application::transfer_task(void)
     if(from_stage == to_stage)
     {
         cout << "Cannot transfer to same stage" << endl;
+        cout << endl;
         return;
     }
     else if(from_stage == num_of_stages - 1)    // if the Stage is Done then cannot transfer from it
     {
         cout << "Cannot transfer from Done" << endl;
+        cout << endl;
         return;
     }
 
     // get ID of task to remove
     size_t id {0};
-    cout << "Enter ID of task to transfer from " + stages_in_app[from_stage] + " to " + stages_in_app[to_stage] << endl;
-    cin >> id;
+
+    // get input from stdin and if true returned then valid input given
+    if(get_from_stdin<size_t> ("Enter ID of task to transfer from " + stages_in_app[from_stage] + " to " + stages_in_app[to_stage] + ": ", id) == false)
+    {
+        cout << endl;
+        cout << "Invalid input given, exitting transfer task" << endl;
+        cout << endl;
+        return;
+    }
+
+    cout << endl;
 
     // check to see if the key exists in the map
     unordered_map<size_t, Task*>::const_iterator item_to_remove = stages[from_stage]->find_id(id);
 
     if(item_to_remove == stages[from_stage]->get_tasks()->end())
     {
-        cerr << "Task does not exist" << endl;
+        cout << "Task does not exist" << endl;
+        cout << endl;
         return;
     }
 
@@ -239,6 +374,7 @@ void application::transfer_task(void)
         if(time_allocated + a_ongoing_stage->get_current_allocated_time() > a_ongoing_stage->get_max_allocated_time())
         {
             cout << "Current task will exceed maximum allocated time" << endl;
+            cout << endl;
             return;
         }
     }

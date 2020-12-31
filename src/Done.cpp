@@ -14,14 +14,14 @@ Stage("done")
 
 // remove task - override
 // this overrided method should have no functionality
-void Done::remove_task(size_t id)
+void Done::remove_task(void)
 {
     cout << "cannot remove from this stage" << endl;
 }
 
 // modify task
 // this overrided method should have no functionality
-void Done::modify_task(size_t id)
+void Done::modify_task(void)
 {
     cout << "cannot modify from this stage" << endl;
 }
@@ -29,8 +29,16 @@ void Done::modify_task(size_t id)
 // print menu for current menu and perform action per user request
 void Done::menu(void)
 {
+    if(get_tasks()->empty() == true)
+    {
+        cout << "No tasks in " << get_stage() << endl;
+        cout << endl;
+        return;
+    }
+
     cout << "Only can print contentes within Done Stage" << endl;
-    this->print();    
+    cout << endl;
+    print();    
 }
 
 // destructor

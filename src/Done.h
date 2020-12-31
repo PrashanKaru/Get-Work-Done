@@ -15,11 +15,11 @@ class Done : public Stage
 
         // remove task - override
         // this overrided method should have no functionality
-        virtual void remove_task(size_t id) override final;
+        virtual void remove_task(void) override final;
 
         // modify task
         // this overrided method should have no functionality
-        virtual void modify_task(size_t id) override final;
+        virtual void modify_task(void) override final;
        
         // print menu for current menu and perform action per user request
         virtual void menu(void) override final;

@@ -3,6 +3,7 @@
 
 // own include files
 #include "Date.h"
+#include "input.cpp"
 
 // constructor - no fields as parameters therefore set to 1
 Date::Date():
@@ -25,19 +26,23 @@ void Date::set_date_stdin(void)
     unsigned short value {0};
 
     // get day
-    get_value("Enter day: ", "Error, please enter a valid day between 1 and 31", 1, 31, value);
+    get_value("Enter day: ", "Error, a valid day is between 1 and 31", 1, 31, value);
 
     // set the day
     this->day = value;
 
+    cout << endl;
+
     // get month
-    get_value("Enter month: ", "Error, please enter a valid month between 1 and 12", 1, 12, value);
+    get_value("Enter month: ", "Error, a valid month is between 1 and 12", 1, 12, value);
 
     // set the month
     this->month = value;
 
+    cout << endl;
+
     // get month
-    get_value("Enter year: ", " ", 0, 65535, value);
+    get_value("Enter year: ", "Error, valid year has to be 2021 or later",  2021, 65535, value);
 
     // set the year
     this->year = value;
@@ -57,16 +62,33 @@ void Date::set_date(string & date)
 
 void Date::get_value(string user_prompt, string error_message, unsigned short min, unsigned short max, unsigned short & value)
 {
-    // ask user to enter a number
-    cout << user_prompt;
-    cin >> value;
+    bool success = false;
 
-    while(value < min || value > max)
-    {
-        // A valid input has not been given, therefore, print error message to ask user to print a valid input
-        cout << error_message << endl;
-        // get user to enter value again
-        cout << user_prompt;
-        cin >> value;
+    // until a valid value has been given stay in loop
+    while(success == false)
+    {   
+        // get value until valid input is given
+        while(get_from_stdin<unsigned short> (user_prompt, value) == false)
+        {
+            cout << endl;
+            cout << "Invalid input given" << endl;
+            cout << "Try again" << endl;
+            cout << endl;
+        }
+
+        // if value is is not within bounds, the value needs to be entered again
+        if(value < min || value > max)
+        {
+            cout << endl;
+            // A valid input has not been given, therefore, print error message to ask user to print a valid input
+            cout << error_message << endl;
+            cout << "Try again" << endl;
+            cout << endl;
+        }
+        else
+        {
+            success = true;
+        }
+        
     }
 }

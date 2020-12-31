@@ -3,6 +3,7 @@
 
 // personal include files
 #include "Backlog.h"
+#include "input.cpp"
 
 // constructor
 Backlog::Backlog():
@@ -24,6 +25,7 @@ void Backlog::insert_task(void)
 
         // get info about task from stdin
         cout << "Set details of new task" << endl;
+        cout << endl;
         new_task->set_task_stdin();
 
         // add task to unordered_map
@@ -89,45 +91,59 @@ void Backlog::print_task(unordered_map<size_t, Task *>::const_iterator current_t
 // print menu for current menu and perform action per user request - no implmentation in base class
 void Backlog::menu(void)
 {
-    // holds the choice from the menu
-    int choice {0};
-    cout << "Backlog Menu" << endl;
-    cout << "1) Insert task" << endl;
-    cout << "2) Modify task" << endl;
-    cout << "3) Remove task" << endl;
-    cout << "4) Print" << endl;
-    cout << "5) Go back" << endl;
-    cout << "Enter choice: ";
-    cin >> choice;
-
-    // holds the id of the task to modify
-    size_t id {0};
-
-    switch(choice)
+    // check if stage is empty, if so print message and return
+    if(get_tasks()->empty() == true)
     {
-    case 1:
-        // call insert method with no arguements
-        this->insert_task();
-        break;
-    case 2:
-        cout << "Enter ID of task to modify: ";
-        cin >> id;
-        modify_task(id);
-        break;
-    case 3:
-        cout << "ID of task to remove: ";
-        cin >> id;
-        remove_task(id);
-        break;
-    case 4:
-        print();
-        break;
-    case 5:
-        cout << "Going back ..." << endl;
-        break;
-    default:
-        cout << "Choice does not exist" << endl;
-        break;
+        cout << "No tasks in " << get_stage() << endl;
+        return;
+    }
+
+    bool exit = false;
+
+    while(exit == false)
+    {
+        // holds the choice from the menu
+        int choice {0};
+        cout << "**********Backlog Menu**********" << endl;
+        cout << "1) Insert task" << endl;
+        cout << "2) Modify task" << endl;
+        cout << "3) Remove task" << endl;
+        cout << "4) Print" << endl;
+        cout << "5) Go back" << endl;
+        cout << "********************************\n" << endl;
+        
+        // get input from stdin 
+        get_from_stdin<int> ("Enter choice: ", choice);
+
+        cout << endl;
+
+        switch(choice)
+        {
+        case 1:
+            // call insert method with no arguements
+            insert_task();
+            break;
+        case 2:
+            modify_task();
+            break;
+        case 3:
+            remove_task();
+            break;
+        case 4:
+            print();
+            break;
+        case 5:
+            exit = true;
+            cout << "Going back ..." << endl;
+            // placed for visual purpose
+            cout << endl;
+            break;
+        default:
+            cout << "Choice does not exist" << endl;
+            // placed for visual purpose
+            cout << endl;
+            break;
+       }
     }
 }
 
