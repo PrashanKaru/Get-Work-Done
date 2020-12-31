@@ -50,7 +50,7 @@ class Ongoing : public Stage
         float get_current_allocated_time(void);
         
         //destructor
-        ~Ongoing();
+        virtual ~Ongoing();
 
     private:
         // this will hold the maximum allocated time that all the task's time allocated can add up to

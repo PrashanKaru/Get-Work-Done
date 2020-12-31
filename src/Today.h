@@ -18,8 +18,7 @@ class Today : public Ongoing
         virtual void menu(void) override;
 
         // destructor
-        ~Today();
-
+        virtual ~Today();
 };
 
 #endif
