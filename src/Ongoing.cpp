@@ -25,46 +25,6 @@ Stage(src), max_allocated_time(0.0), current_allocated_time(0.0)
 
 // methods
 
-// print a single task
-// should print without time taken as ongoing should not have this info
-void Ongoing::print_task(unordered_map<size_t, Task *>::const_iterator current_task)
-{
-    const unsigned short horizontal_line_length = 50;
-
-    // horizontal =================== for ammount specficed by horizontal line
-    print_table_edge('=', horizontal_line_length);
-
-    // print ID
-    cout << "ID: "<< current_task->first << endl;
-
-    // print -------------
-    print_table_edge('-', horizontal_line_length);
-
-    // print topic
-    cout << "Topic: " << current_task->second->get_topic() << endl;
-    
-    // print -------------
-    print_table_edge('-', horizontal_line_length);
-    
-    // print description
-    cout << "Description: " << current_task->second->get_description() << endl;
-    
-    // print -------------
-    print_table_edge('-', horizontal_line_length);
-    
-    // print time_allocated
-    cout << "Time Allocated: " << current_task->second->get_time_allocated() << endl;
-    
-    // print -------------
-    print_table_edge('-', horizontal_line_length);
-    
-    // print due_date
-    cout << "Due Date: " << current_task->second->get_due_date()->get_date() << endl;
-    
-    // horizontal =================== for ammount specficed by horizontal line
-    print_table_edge('=', horizontal_line_length);
-}
-
 // this will be used to load the tasks from disk
 void Ongoing::load_tasks(void)
 {
@@ -256,9 +216,6 @@ void Ongoing::menu(void)
         // placed for visual purpose
         cout << endl;
 
-        // hold data for max ongoing time
-        float new_max_ongoing_time {0.0};
-    
         switch(choice)
         {
         case 1:

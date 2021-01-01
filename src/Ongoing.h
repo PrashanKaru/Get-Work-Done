@@ -19,10 +19,6 @@ class Ongoing : public Stage
 
         // methods
 
-        // print a single task
-        // should print without time taken as ongoing should not have this info
-        virtual void print_task(unordered_map<size_t, Task *>::const_iterator current_task);
-        
         // this will be used to load the tasks from disk
         virtual void load_tasks(void) override;
         
