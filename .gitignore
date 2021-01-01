@@ -1,0 +1,4 @@
+.vscode/
+*.o
+get_work_done
+.*.data
