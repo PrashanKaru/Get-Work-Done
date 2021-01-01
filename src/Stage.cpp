@@ -130,7 +130,6 @@ void Stage::modify_task(void)
         switch(choice)
         {
         case 1:
-            cin.ignore();
             // rename topic
             cout << "Rename topic: ";
             getline(cin, s_data);
@@ -142,7 +141,6 @@ void Stage::modify_task(void)
             break;
         case 2:
         {
-            cin.ignore();
             // rename description
             cout << "Rename description: ";
             getline(cin, s_data);
@@ -191,7 +189,6 @@ void Stage::modify_task(void)
             break;
         case 4:
             // reset due_date
-            cin.ignore();
             cout << "Reset due date: ";
             getline(cin, s_data);
             // modifiy due date to new due date
@@ -437,7 +434,7 @@ void Stage::print_specific_topic(void)
 {
     string topic;
 
-    cin.ignore();
+    // cin.ignore();
     cout << "Enter the topic: ";
     getline(cin, topic);
 
@@ -492,7 +489,7 @@ void Stage::print_specific_due_date(void)
 {
     string due_date;
 
-    cin.ignore();
+    // cin.ignore();
     cout << "Enter due date: ";
     getline(cin, due_date);
 
