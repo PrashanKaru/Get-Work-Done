@@ -187,7 +187,11 @@ void application::run(void)
                     // perform static cast since it is an Ongoing object
                     Ongoing * an_ongoing_stage = static_cast<Ongoing *> (stages[choice - 1]);
 
+                    // print current stats
+                    cout << "*********************************************" << endl;
                     cout << "Currently set maximum allocated time is " << an_ongoing_stage->get_max_allocated_time() << endl;
+                    cout << "Current allocated time is " << an_ongoing_stage->get_current_allocated_time() << endl;
+                    cout << "*********************************************" << endl;
                     cout << endl;
                     
                     // hold data for max ongoing time
@@ -195,20 +199,30 @@ void application::run(void)
 
                     // get input from stdin and if true returned then valid input given
                     if(get_from_stdin<float> ("Enter new maximum allocated time: ", new_max_ongoing_time) == true)
-                    {                    
-                        // since input was valid, try setting the value
-                        // if the result of max_allocated_time is less than zero a false is returned as time cannot be negative
-                        if(an_ongoing_stage->set_max_allocated_time(new_max_ongoing_time) == false)
+                    {
+                        cout << endl;
+
+                        // check to see if the new_max_ongoing_time is less than current_allocated_time
+                        if(new_max_ongoing_time < an_ongoing_stage->get_current_allocated_time())
                         {
-                            cout << "Maximum allocated time cannot be less than 0" << endl;
+                            cout << "Cannot set the maximum allocated time to be less than the current allocated time" << endl;
                             cout << endl;
                         }
                         else
                         {
-                            cout << "Maximum allocated time has successfully been set" << endl;
-                            cout << endl;
+                            // since input was valid, try setting the value
+                            // if the result of max_allocated_time is less than zero a false is returned as time cannot be negative
+                            if(an_ongoing_stage->set_max_allocated_time(new_max_ongoing_time) == false)
+                            {
+                                cout << "Maximum allocated time cannot be less than 0" << endl;
+                                cout << endl;
+                            }
+                            else
+                            {
+                                cout << "Maximum allocated time has successfully been set" << endl;
+                                cout << endl;
+                            }
                         }
-                        
                     }
                     else // else tell user invalid value given. This is for input like "absd"
                     {
@@ -406,6 +420,9 @@ void application::transfer_task(void)
         // since the task was transfered to Today or Ongoing, the current_allocated_time needs to be increased
         a_ongoing_stage->increase_current_allocated_time(time_allocated);
     }
+
+    cout << "Successfully transfered task from " << stages_in_app[from_stage] << " to " << stages_in_app[to_stage] << endl;
+    cout << endl;
 }
 
 // destructor
