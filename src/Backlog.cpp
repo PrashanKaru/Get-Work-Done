@@ -91,13 +91,6 @@ void Backlog::print_task(unordered_map<size_t, Task *>::const_iterator current_t
 // print menu for current menu and perform action per user request - no implmentation in base class
 void Backlog::menu(void)
 {
-    // check if stage is empty, if so print message and return
-    if(get_tasks()->empty() == true)
-    {
-        cout << "No tasks in " << get_stage() << endl;
-        return;
-    }
-
     bool exit = false;
 
     while(exit == false)
