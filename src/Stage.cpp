@@ -674,7 +674,7 @@ void Stage::print(void)
         cout << "3) Print due date" << endl;
         cout << "4) Print time allocated" << endl;
         cout << "5) Print ID" << endl;
-        cout << "6) Back" << endl;
+        cout << "6) Go Back" << endl;
         cout << "******************************\n" << endl;
 
         // get input from stdin and if true returned then valid input given    
