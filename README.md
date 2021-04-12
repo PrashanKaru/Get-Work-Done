@@ -1,4 +1,4 @@
-# get_work_done
+# Get Work Done
 
 The aim of this project is to help people get work done, hence the name get_work_done. 
 
@@ -31,7 +31,19 @@ The machine learning ascpect will involve Python intially but the final implment
 
 ## Current interface of application and the future
 
-Currently the application only works on command line. However, the future aim is to make it a GUI application using Qt. 
+Currently the application only works on command line. However, the future aim is to make it a GUI application using Qt.
+
+## Installation
+
+**Note: Currently this application can only be installed on Linux. Support for Windows and MacOS will come soon.**
+
+```
+mkdir build
+cd build
+cmake ..
+make 
+sudo make install
+```
 
 ## Testing
 
