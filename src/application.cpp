@@ -108,7 +108,7 @@ void application::run(void)
     int choice {0};
 
     // use to clear variable
-    char in {0};
+    // char in {0};
     
     // placed for visual purpose
     cout << endl;
