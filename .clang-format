@@ -4,14 +4,14 @@ BasedOnStyle: Microsoft
 AllowAllArgumentsOnNextLine: false
 AllowAllConstructorInitializersOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
-BinPackArguments: false
-BinPackParameters: false
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
-ColumnLimit: 100
+ColumnLimit: 120
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 FixNamespaceComments: false
 IncludeBlocks: Regroup
 IndentCaseLabels: true
+KeepEmptyLinesAtTheStartOfBlocks: false
 NamespaceIndentation: All
 PointerAlignment: Left
 SpaceAfterLogicalNot: false
