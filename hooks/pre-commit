@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "Running clang format"
+
+# run git clang-format with specified .clang-format
+git clang-format-11 --style=file

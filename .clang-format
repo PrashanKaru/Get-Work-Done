@@ -1,0 +1,25 @@
+# clang-format based on Microsoft Style
+---
+BasedOnStyle: Microsoft
+AllowAllArgumentsOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+BinPackArguments: false
+BinPackParameters: false
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+ColumnLimit: 100
+FixNamespaceComments: false
+IncludeBlocks: Regroup
+IndentCaseLabels: true
+NamespaceIndentation: All
+PointerAlignment: Left
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
+SpaceBeforeParens: Never
+SpaceBeforeRangeBasedForLoopColon: false
+SpacesInContainerLiterals: false
+...
