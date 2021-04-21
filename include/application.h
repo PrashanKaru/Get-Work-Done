@@ -9,25 +9,26 @@
 
 class application
 {
-    public:
-        // constructor 
-        application();
+  public:
+    // constructor
+    application();
 
-        // method
+    // method
 
-        // run the application
-        void run(void);
+    // run the application
+    void run(void);
 
-        // transfer_task
-        void transfer_task(void);
+    // transfer_task
+    void transfer_task(void);
 
-        // destructor
-        ~application();
-    private:
-        // this will hold all the stages in the application
-        Stage ** stages;
-        unsigned short num_of_stages;
-        vector<string> stages_in_app;
+    // destructor
+    ~application();
+
+  private:
+    // this will hold all the stages in the application
+    Stage** stages;
+    unsigned short num_of_stages;
+    vector<string> stages_in_app;
 };
 
 #endif

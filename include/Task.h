@@ -6,62 +6,62 @@
 
 class Task
 {
-    public:
-        // contructor
-        
-        // Empty contructor - should be called only when creating a new task from menu
-        Task();
-        
-        // All fields contructor - should be called when reading from saved data
-        Task(string topic, string description, float time_allocated, float time_taken, Date * due_date);
+  public:
+    // contructor
 
-        // Copy constructor
-        Task(const Task & src);
+    // Empty contructor - should be called only when creating a new task from menu
+    Task();
 
-        // accessors
+    // All fields contructor - should be called when reading from saved data
+    Task(string topic, string description, float time_allocated, float time_taken, Date* due_date);
 
-        // set all fields in Task from stdin
-        void set_task_stdin(void);
+    // Copy constructor
+    Task(const Task& src);
 
-        // set topic
-        void set_topic(string & topic);
+    // accessors
 
-        // get topic
-        string get_topic(void);
-        
-        // set description
-        void set_description(string & description);
-        
-        // get description
-        string get_description(void);
+    // set all fields in Task from stdin
+    void set_task_stdin(void);
 
-        // set time_allocated
-        bool set_time_allocated(float & time_allocated);
+    // set topic
+    void set_topic(string& topic);
 
-        // get time_allocated
-        float get_time_allocated(void);
+    // get topic
+    string get_topic(void);
 
-        // set time_taken
-        bool set_time_taken(float & time_taken);
+    // set description
+    void set_description(string& description);
 
-        // get time_taken
-        float get_time_taken(void);
+    // get description
+    string get_description(void);
 
-        // set due_date
-        void set_due_date(string & due_date);
+    // set time_allocated
+    bool set_time_allocated(float& time_allocated);
 
-        // get due_date
-        Date * get_due_date(void);
+    // get time_allocated
+    float get_time_allocated(void);
 
-        // Destructor
-        ~Task();
+    // set time_taken
+    bool set_time_taken(float& time_taken);
 
-    private:
-        string topic;
-        string description;
-        float time_allocated; // this will be in hours
-        float time_taken; // this will be in hours
-        Date * due_date;
+    // get time_taken
+    float get_time_taken(void);
+
+    // set due_date
+    void set_due_date(string& due_date);
+
+    // get due_date
+    Date* get_due_date(void);
+
+    // Destructor
+    ~Task();
+
+  private:
+    string topic;
+    string description;
+    float time_allocated; // this will be in hours
+    float time_taken;     // this will be in hours
+    Date* due_date;
 };
 
 #endif

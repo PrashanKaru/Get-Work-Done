@@ -6,20 +6,16 @@
 #include "input.cpp"
 
 // constructor - no fields as parameters therefore set to 1
-Date::Date():
-Date(1, 1, 1)
+Date::Date(): Date(1, 1, 1)
 {
-
 }
 
 // constructor - call when loading from file
-Date::Date(unsigned short day, unsigned short month, unsigned short year):
-day(day), month(month), year(year)
+Date::Date(unsigned short day, unsigned short month, unsigned short year): day(day), month(month), year(year)
 {
-
 }
 
-// setter for date 
+// setter for date
 void Date::set_date_stdin(void)
 {
     // this will hold the different values that will be used to set the fields
@@ -42,11 +38,10 @@ void Date::set_date_stdin(void)
     cout << endl;
 
     // get month
-    get_value("Enter year: ", "Error, valid year has to be 2021 or later",  2021, 65535, value);
+    get_value("Enter year: ", "Error, valid year has to be 2021 or later", 2021, 65535, value);
 
     // set the year
     this->year = value;
-    
 }
 
 string Date::get_date(void)
@@ -55,20 +50,21 @@ string Date::get_date(void)
 }
 
 // setter for date
-void Date::set_date(string & date)
+void Date::set_date(string& date)
 {
     sscanf(date.c_str(), "%hu/%hu/%hu", &this->day, &this->month, &this->year);
 }
 
-void Date::get_value(string user_prompt, string error_message, unsigned short min, unsigned short max, unsigned short & value)
+void Date::get_value(string user_prompt, string error_message, unsigned short min, unsigned short max,
+                     unsigned short& value)
 {
     bool success = false;
 
     // until a valid value has been given stay in loop
     while(success == false)
-    {   
+    {
         // get value until valid input is given
-        while(get_from_stdin<unsigned short> (user_prompt, value) == false)
+        while(get_from_stdin<unsigned short>(user_prompt, value) == false)
         {
             cout << endl;
             cout << "Invalid input given" << endl;
@@ -89,6 +85,5 @@ void Date::get_value(string user_prompt, string error_message, unsigned short mi
         {
             success = true;
         }
-        
     }
 }

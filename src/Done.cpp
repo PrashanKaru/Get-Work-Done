@@ -4,10 +4,8 @@
 // personal include files
 #include "Done.h"
 
-Done::Done():
-Stage("done")
+Done::Done(): Stage("done")
 {
-
 }
 
 // methods
@@ -38,12 +36,10 @@ void Done::menu(void)
 
     cout << "Only can print contentes within Done Stage" << endl;
     cout << endl;
-    print();    
+    print();
 }
 
 // destructor
 Done::~Done()
 {
-
 }
-

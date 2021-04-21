@@ -1,27 +1,22 @@
 // standard include files
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 // personal include files
 #include "Ongoing.h"
 #include "input.cpp"
 
 // constructor
-        
-// no parameter constructor
-Ongoing::Ongoing():
-Ongoing("ongoing") 
-{
 
+// no parameter constructor
+Ongoing::Ongoing(): Ongoing("ongoing")
+{
 }
 
 // constructor with parameter that allows setting the stage field from Stage Class
-Ongoing::Ongoing(string src):
-Stage(src), max_allocated_time(0.0), current_allocated_time(0.0)
+Ongoing::Ongoing(string src): Stage(src), max_allocated_time(0.0), current_allocated_time(0.0)
 {
-
 }
-
 
 // methods
 
@@ -41,10 +36,10 @@ void Ongoing::load_tasks(void)
         cout << "***" << error_message << get_stage() << "***" << endl;
         return;
     }
-    
+
     // holds the data read from the file
     string s_data;
-    
+
     // holds the converted string as a float type which was read from file
     float f_data {0.0};
 
@@ -59,8 +54,8 @@ void Ongoing::load_tasks(void)
 
     // set max_allocated_time
     this->max_allocated_time = f_data;
-    
-    Task * new_task = nullptr;
+
+    Task* new_task = nullptr;
 
     try
     {
@@ -68,7 +63,6 @@ void Ongoing::load_tasks(void)
         {
             // create a new instance of task
             new_task = new Task();
-            
 
             // get topic from file
             getline(stage_file, s_data);
@@ -102,7 +96,7 @@ void Ongoing::load_tasks(void)
             // increment current_ongoing
             this->current_allocated_time += f_data;
 
-            // get time_taken 
+            // get time_taken
             getline(stage_file, s_data);
 
             // convert string to float
@@ -118,10 +112,10 @@ void Ongoing::load_tasks(void)
             new_task->set_due_date(s_data);
 
             // insert task
-            insert_task(hash<string>{}(new_task->get_description()), new_task);
+            insert_task(hash<string> {}(new_task->get_description()), new_task);
         }
     }
-    catch(bad_alloc & exp) // this will take place if the task object cannot be created
+    catch(bad_alloc& exp) // this will take place if the task object cannot be created
     {
         cout << exp.what() << endl;
         cout << "*********************************" << endl;
@@ -129,7 +123,7 @@ void Ongoing::load_tasks(void)
         cout << "Cannot create anymore tasks" << endl;
         cout << "*********************************" << endl;
     }
-    catch(runtime_error & exp) // this will take place if date object cannot be created
+    catch(runtime_error& exp) // this will take place if date object cannot be created
     {
         cout << exp.what() << endl;
         cout << "***************************" << endl;
@@ -147,7 +141,7 @@ void Ongoing::save_tasks(void)
 {
     // create string which holds file name
     string file_name = "." + this->get_stage() + ".data";
-    
+
     // open in writing mode
     ofstream stage_file(file_name, ios_base::out);
 
@@ -171,7 +165,7 @@ void Ongoing::save_tasks(void)
         due_date - value not pointer
     */
     // get pointer to ongoing tasks
-    unordered_map<size_t, Task *> * ongoing_tasks = get_tasks();
+    unordered_map<size_t, Task*>* ongoing_tasks = get_tasks();
 
     for(unordered_map<size_t, Task*>::const_iterator it = ongoing_tasks->begin(); it != ongoing_tasks->end(); it++)
     {
@@ -205,48 +199,48 @@ void Ongoing::menu(void)
         cout << "**********Ongoing Menu**********" << endl;
         cout << "1) Modify tasks" << endl;
         cout << "2) Remove Task" << endl;
-        cout << "3) Print stats" << endl; 
+        cout << "3) Print stats" << endl;
         cout << "4) Print" << endl;
         cout << "5) Go back" << endl;
         cout << "********************************\n" << endl;
 
-        // get input from stdin 
-        get_from_stdin<int> ("Enter choice: ", choice);
+        // get input from stdin
+        get_from_stdin<int>("Enter choice: ", choice);
 
         // placed for visual purpose
         cout << endl;
 
         switch(choice)
         {
-        case 1:
-            modify_task();
-            break;
-        case 2:
-            remove_task();
-            break;
-        case 3:
-            cout << endl;
-            cout << "*******************************" << endl;
-            cout << "Maximum Allocated Time: " << get_max_allocated_time() << endl;
-            cout << "Current Allocated Time: " << get_current_allocated_time() << endl;
-            cout << "*******************************" << endl;
-            cout << endl;
-            break;
-        case 4:
-            print();
-            break;
-        case 5:
-            // turn true to exit
-            exit = true;
-            cout << "Going back ..." << endl;
-            // placed for visual purpose
-            cout << endl;
-            break;
-        default:
-            cout << "Choice does not exist" << endl;
-            // placed for visual purpose
-            cout << endl;
-            break;
+            case 1:
+                modify_task();
+                break;
+            case 2:
+                remove_task();
+                break;
+            case 3:
+                cout << endl;
+                cout << "*******************************" << endl;
+                cout << "Maximum Allocated Time: " << get_max_allocated_time() << endl;
+                cout << "Current Allocated Time: " << get_current_allocated_time() << endl;
+                cout << "*******************************" << endl;
+                cout << endl;
+                break;
+            case 4:
+                print();
+                break;
+            case 5:
+                // turn true to exit
+                exit = true;
+                cout << "Going back ..." << endl;
+                // placed for visual purpose
+                cout << endl;
+                break;
+            default:
+                cout << "Choice does not exist" << endl;
+                // placed for visual purpose
+                cout << endl;
+                break;
         }
     }
 }
@@ -268,7 +262,7 @@ void Ongoing::decrease_current_allocated_time(float time_allocated)
 // accessors
 
 // setter max_allocated_time
-bool Ongoing::set_max_allocated_time(float & max_allocated_time)
+bool Ongoing::set_max_allocated_time(float& max_allocated_time)
 {
     if(max_allocated_time < 0)
     {
@@ -290,8 +284,7 @@ float Ongoing::get_current_allocated_time(void)
     return this->current_allocated_time;
 }
 
-//destructor
+// destructor
 Ongoing::~Ongoing()
 {
-
 }

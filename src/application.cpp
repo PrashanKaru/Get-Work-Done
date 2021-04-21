@@ -1,36 +1,36 @@
 // standard include files
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 // personal include files
-#include "application.h"
-#include "Today.h"
-#include "Ongoing.h"
 #include "Backlog.h"
 #include "Done.h"
+#include "Ongoing.h"
+#include "Today.h"
+#include "application.h"
 #include "input.cpp"
 
-// constructor 
+// constructor
 application::application():
-num_of_stages(4)    // set the number of stages to be 4 since there are 4 stages, today, ongoing, backlog & done
+    num_of_stages(4) // set the number of stages to be 4 since there are 4 stages, today, ongoing, backlog & done
 {
     // created a array of pointers on the heap and store address in stages
     try
     {
-        stages = new Stage * [num_of_stages];
+        stages = new Stage*[num_of_stages];
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         cerr << "Cannot allocate memory for stages, out of memory" << endl;
         // exit program since not enough memory
         exit(EXIT_FAILURE);
     }
-    
+
     try
     {
         stages[0] = new Today();
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         cerr << "Cannot allocate memory for Today stage, out of memory" << endl;
         // delete previously allocated memory
@@ -38,12 +38,12 @@ num_of_stages(4)    // set the number of stages to be 4 since there are 4 stages
         // exit program since not enough memory
         exit(EXIT_FAILURE);
     }
-    
+
     try
     {
         stages[1] = new Ongoing();
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         cerr << "Cannot allocate memory for Ongoing stage, out of memory" << endl;
         // delete previously allocated memory
@@ -52,12 +52,12 @@ num_of_stages(4)    // set the number of stages to be 4 since there are 4 stages
         // exit program since not enough memory
         exit(EXIT_FAILURE);
     }
-    
+
     try
     {
         stages[2] = new Backlog();
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         cerr << "Cannot allocate memory for Backlog stage, out of memory" << endl;
         // delete previously allocated memory
@@ -67,12 +67,12 @@ num_of_stages(4)    // set the number of stages to be 4 since there are 4 stages
         // exit program since not enough memory
         exit(EXIT_FAILURE);
     }
-    
+
     try
     {
         stages[3] = new Done();
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         cerr << "Cannot allocate memory for Done stage, out of memory" << endl;
         // delete previously allocated memory
@@ -109,7 +109,7 @@ void application::run(void)
 
     // use to clear variable
     // char in {0};
-    
+
     // placed for visual purpose
     cout << endl;
 
@@ -124,7 +124,7 @@ void application::run(void)
         cout << "5) Exit" << endl;
         cout << "**********************\n" << endl;
 
-        get_from_stdin<int> ("Enter choice: ", choice);
+        get_from_stdin<int>("Enter choice: ", choice);
 
         // placed for visual purpose
         cout << endl;
@@ -141,8 +141,8 @@ void application::run(void)
                     cout << "4) Done" << endl;
                     cout << "5) Go back" << endl;
                     cout << "**********************\n" << endl;
-                    
-                    get_from_stdin<int> ("Enter choice: ", choice);
+
+                    get_from_stdin<int>("Enter choice: ", choice);
 
                     // placed for visual purpose
                     cout << endl;
@@ -165,7 +165,7 @@ void application::run(void)
                         // placed for visual purpose
                         cout << endl;
                     }
-                }            
+                }
                 break;
             case 2:
                 transfer_task();
@@ -175,8 +175,8 @@ void application::run(void)
                 cout << "1) Today" << endl;
                 cout << "2) Ongoing" << endl;
                 cout << "**************************\n" << endl;
-                
-                get_from_stdin<int> ("Enter choice: ", choice);
+
+                get_from_stdin<int>("Enter choice: ", choice);
 
                 // placed for visual purpose
                 cout << endl;
@@ -185,33 +185,36 @@ void application::run(void)
                 if(choice == 1 || choice == 2)
                 {
                     // perform static cast since it is an Ongoing object
-                    Ongoing * an_ongoing_stage = static_cast<Ongoing *> (stages[choice - 1]);
+                    Ongoing* an_ongoing_stage = static_cast<Ongoing*>(stages[choice - 1]);
 
                     // print current stats
                     cout << "*********************************************" << endl;
-                    cout << "Currently set maximum allocated time is " << an_ongoing_stage->get_max_allocated_time() << endl;
+                    cout << "Currently set maximum allocated time is " << an_ongoing_stage->get_max_allocated_time()
+                         << endl;
                     cout << "Current allocated time is " << an_ongoing_stage->get_current_allocated_time() << endl;
                     cout << "*********************************************" << endl;
                     cout << endl;
-                    
+
                     // hold data for max ongoing time
                     float new_max_ongoing_time {0.0};
 
                     // get input from stdin and if true returned then valid input given
-                    if(get_from_stdin<float> ("Enter new maximum allocated time: ", new_max_ongoing_time) == true)
+                    if(get_from_stdin<float>("Enter new maximum allocated time: ", new_max_ongoing_time) == true)
                     {
                         cout << endl;
 
                         // check to see if the new_max_ongoing_time is less than current_allocated_time
                         if(new_max_ongoing_time < an_ongoing_stage->get_current_allocated_time())
                         {
-                            cout << "Cannot set the maximum allocated time to be less than the current allocated time" << endl;
+                            cout << "Cannot set the maximum allocated time to be less than the current allocated time"
+                                 << endl;
                             cout << endl;
                         }
                         else
                         {
                             // since input was valid, try setting the value
-                            // if the result of max_allocated_time is less than zero a false is returned as time cannot be negative
+                            // if the result of max_allocated_time is less than zero a false is returned as time cannot
+                            // be negative
                             if(an_ongoing_stage->set_max_allocated_time(new_max_ongoing_time) == false)
                             {
                                 cout << "Maximum allocated time cannot be less than 0" << endl;
@@ -248,7 +251,7 @@ void application::run(void)
                         stages[i]->print_table_edge('*', 50);
 
                         // print stage in upper case
-                        for(auto & c : stages[i]->get_stage())
+                        for(auto& c: stages[i]->get_stage())
                         {
                             cout << char(c ^ ' ');
                         }
@@ -296,7 +299,7 @@ void application::transfer_task(void)
     // print menu to ask user where to transfer new task to
     cout << "*******Stages*******" << endl;
     int choice {1};
-    for(auto & i:stages_in_app)
+    for(auto& i: stages_in_app)
     {
         // print number
         cout << choice;
@@ -311,7 +314,7 @@ void application::transfer_task(void)
     int to_stage {0};
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<int> ("Enter stage to transfer from: ", from_stage) == false)
+    if(get_from_stdin<int>("Enter stage to transfer from: ", from_stage) == false)
     {
         cout << endl;
         cout << "Invalid input given, exiting transfer task" << endl;
@@ -320,7 +323,7 @@ void application::transfer_task(void)
     }
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<int> ("Enter stage to transfer to: ", to_stage) == false)
+    if(get_from_stdin<int>("Enter stage to transfer to: ", to_stage) == false)
     {
         cout << endl;
         cout << "Invalid input given, exiting transfer task" << endl;
@@ -333,7 +336,7 @@ void application::transfer_task(void)
     // subtract to later compare with index
     from_stage--;
     to_stage--;
-    
+
     // compare to see if the stages are the same, if so print error message and return
     if(from_stage == to_stage)
     {
@@ -341,7 +344,7 @@ void application::transfer_task(void)
         cout << endl;
         return;
     }
-    else if(from_stage == num_of_stages - 1)    // if the Stage is Done then cannot transfer from it
+    else if(from_stage == num_of_stages - 1) // if the Stage is Done then cannot transfer from it
     {
         cout << "Cannot transfer from Done" << endl;
         cout << endl;
@@ -352,7 +355,9 @@ void application::transfer_task(void)
     size_t id {0};
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<size_t> ("Enter ID of task to transfer from " + stages_in_app[from_stage] + " to " + stages_in_app[to_stage] + ": ", id) == false)
+    if(get_from_stdin<size_t>("Enter ID of task to transfer from " + stages_in_app[from_stage] + " to " +
+                                  stages_in_app[to_stage] + ": ",
+                              id) == false)
     {
         cout << endl;
         cout << "Invalid input given, exitting transfer task" << endl;
@@ -375,16 +380,18 @@ void application::transfer_task(void)
     // get the time allocated for current task
     float time_allocated = item_to_remove->second->get_time_allocated();
 
-    // check if to_stage is today or ongoing and if so first check to see if the new addition of task will be greater than max limit for both stages and if so exit else add task
+    // check if to_stage is today or ongoing and if so first check to see if the new addition of task will be greater
+    // than max limit for both stages and if so exit else add task
 
     // check to see if to_stage is less than or equal to stage_limit
     // if so, indicates that the stage is either Today or Ongoing
     if(to_stage <= stage_limit)
     {
         // create a static cast Ongoing*
-        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (stages[to_stage]);
+        Ongoing* a_ongoing_stage = static_cast<Ongoing*>(stages[to_stage]);
 
-        // check to see if the time_allocated and current_allocated time summed together is greater than the max_allocated_time, if so max_allocated_time does not add this task and exit
+        // check to see if the time_allocated and current_allocated time summed together is greater than the
+        // max_allocated_time, if so max_allocated_time does not add this task and exit
         if(time_allocated + a_ongoing_stage->get_current_allocated_time() > a_ongoing_stage->get_max_allocated_time())
         {
             cout << "Current task will exceed maximum allocated time" << endl;
@@ -402,26 +409,27 @@ void application::transfer_task(void)
     stages[from_stage]->get_tasks()->erase(item_to_remove);
 
     // check if from_stage is today or ongoing
-    if(from_stage <= stage_limit)   // Today or Ongoing
+    if(from_stage <= stage_limit) // Today or Ongoing
     {
         // perform static cast
-        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (stages[from_stage]);
-        // update the current_allocated_time 
+        Ongoing* a_ongoing_stage = static_cast<Ongoing*>(stages[from_stage]);
+        // update the current_allocated_time
         // since the task was transfered from Today or Ongoing, the current_allocated_time needs to be decreased
         a_ongoing_stage->decrease_current_allocated_time(time_allocated);
     }
-    
+
     // check if to_stage is today or ongoing
-    if(to_stage <= stage_limit)   // today
+    if(to_stage <= stage_limit) // today
     {
         // perform static cast
-        Ongoing * a_ongoing_stage = static_cast<Ongoing *> (stages[to_stage]);
-        // update the current_allocated_time 
+        Ongoing* a_ongoing_stage = static_cast<Ongoing*>(stages[to_stage]);
+        // update the current_allocated_time
         // since the task was transfered to Today or Ongoing, the current_allocated_time needs to be increased
         a_ongoing_stage->increase_current_allocated_time(time_allocated);
     }
 
-    cout << "Successfully transfered task from " << stages_in_app[from_stage] << " to " << stages_in_app[to_stage] << endl;
+    cout << "Successfully transfered task from " << stages_in_app[from_stage] << " to " << stages_in_app[to_stage]
+         << endl;
     cout << endl;
 }
 
@@ -434,5 +442,5 @@ application::~application()
     delete stages[2];
     delete stages[3];
     // delete stages
-    delete [] stages;
+    delete[] stages;
 }

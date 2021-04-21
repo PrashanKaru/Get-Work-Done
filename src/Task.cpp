@@ -11,38 +11,38 @@ using namespace std;
 // contructor
 
 // Empty contructor - should be called only when creating a new task from menu
-Task::Task():
-Task("", "", 0.0, 0.0, nullptr)
+Task::Task(): Task("", "", 0.0, 0.0, nullptr)
 {
     try
     {
         // create an instance of Date for due_date which will be used later
         this->due_date = new Date();
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         throw runtime_error("Cannot create due date, out of memory");
     }
-    
 }
 
 // All fields contructor - should be called when reading from saved data
-Task::Task(string topic, string description, float time_allocated, float time_taken, Date * due_date):
-topic(topic), description(description), time_allocated(time_allocated), time_taken(time_taken), due_date(due_date)
+Task::Task(string topic, string description, float time_allocated, float time_taken, Date* due_date):
+    topic(topic),
+    description(description),
+    time_allocated(time_allocated),
+    time_taken(time_taken),
+    due_date(due_date)
 {
-
 }
 
 // Copy constructor
-Task::Task(const Task & src):
-Task(src.topic, src.description, src.time_allocated, src.time_taken, nullptr)
+Task::Task(const Task& src): Task(src.topic, src.description, src.time_allocated, src.time_taken, nullptr)
 {
     cout << "Calling copy constructor\n";
     try
     {
         this->due_date = new Date(*(src.due_date));
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         throw runtime_error("Cannot create due date, out of memory");
     }
@@ -72,7 +72,7 @@ void Task::set_task_stdin(void)
     this->description = s_data;
 
     cout << endl;
-    
+
     float f_data;
 
     bool got_it = false;
@@ -80,7 +80,7 @@ void Task::set_task_stdin(void)
     while(got_it == false)
     {
         // get input from stdin and if true returned then valid input given
-        while(get_from_stdin<float> ("Enter time allocated: ", f_data) == false)
+        while(get_from_stdin<float>("Enter time allocated: ", f_data) == false)
         {
             cout << endl;
             cout << "Invalid input given" << endl;
@@ -117,7 +117,7 @@ void Task::set_task_stdin(void)
 }
 
 // set topic
-void Task::set_topic(string & topic)
+void Task::set_topic(string& topic)
 {
     this->topic = topic;
 }
@@ -129,7 +129,7 @@ string Task::get_topic(void)
 }
 
 // set description
-void Task::set_description(string & description)
+void Task::set_description(string& description)
 {
     this->description = description;
 }
@@ -141,7 +141,7 @@ string Task::get_description(void)
 }
 
 // set time_allocated
-bool Task::set_time_allocated(float & time_allocated)
+bool Task::set_time_allocated(float& time_allocated)
 {
     // if the given value is less than zero then return false since negative is not possible
     if(time_allocated < 0)
@@ -162,7 +162,7 @@ float Task::get_time_allocated(void)
 }
 
 // set time_taken
-bool Task::set_time_taken(float & time_taken)
+bool Task::set_time_taken(float& time_taken)
 {
     // if the given value is less than zero then return false since negative is not possible
     if(time_taken < 0)
@@ -172,7 +172,7 @@ bool Task::set_time_taken(float & time_taken)
     else
     {
         this->time_taken = time_taken;
-        return true;    
+        return true;
     }
 }
 
@@ -183,14 +183,14 @@ float Task::get_time_taken(void)
 }
 
 // set due_date
-void Task::set_due_date(string & due_date)
+void Task::set_due_date(string& due_date)
 {
     // call method to set due date
     this->due_date->set_date(due_date);
 }
 
 // get due_date
-Date * Task::get_due_date(void)
+Date* Task::get_due_date(void)
 {
     return this->due_date;
 }

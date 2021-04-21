@@ -7,8 +7,7 @@
 
 using namespace std;
 
-template <typename T>
-bool get_from_stdin(string prompt, T & src)
+template<typename T> bool get_from_stdin(string prompt, T& src)
 {
     cout << prompt;
     cin >> src;
