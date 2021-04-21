@@ -1,30 +1,28 @@
 // standard include files
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 // personal include files
 #include "Stage.h"
 #include "input.cpp"
 
 using namespace std;
-        
+
 // constructor
 
 // no parameter constructor used for arrays
 Stage::Stage()
 {
-
 }
 
 // single paramter constructor
-Stage::Stage(string stage):
-stage(stage)
+Stage::Stage(string stage): stage(stage)
 {
     try
     {
-        tasks = new unordered_map<size_t, Task *> ();
+        tasks = new unordered_map<size_t, Task*>();
     }
-    catch(const bad_alloc & exp)
+    catch(const bad_alloc& exp)
     {
         cerr << "Not enough memory to create " + this->stage << endl;
     }
@@ -32,19 +30,19 @@ stage(stage)
 
 // methods
 // insert new task by providing the information
-void Stage::insert_task(size_t id, Task * task_to_insert)
+void Stage::insert_task(size_t id, Task* task_to_insert)
 {
     this->tasks->insert(make_pair(id, task_to_insert));
 }
 
 // remove task
 void Stage::remove_task()
-{    
+{
     // holds id to remove
     size_t id {0};
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<size_t> ("ID of task to remove: ", id) == false)
+    if(get_from_stdin<size_t>("ID of task to remove: ", id) == false)
     {
         cout << endl;
         cout << "Invalid input given" << endl;
@@ -82,7 +80,7 @@ void Stage::modify_task(void)
     size_t id {0};
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<size_t> ("Enter ID of task to modify: ", id) == false)
+    if(get_from_stdin<size_t>("Enter ID of task to modify: ", id) == false)
     {
         cout << "Invalid input given" << endl;
         cout << endl;
@@ -92,11 +90,11 @@ void Stage::modify_task(void)
     cout << endl;
 
     cout << "Checking if ID exists" << endl;
-    
+
     cout << endl;
     // check to see if the item exists
-    unordered_map<size_t, Task *>::const_iterator item_to_modify = tasks->find(id);
-    
+    unordered_map<size_t, Task*>::const_iterator item_to_modify = tasks->find(id);
+
     // check if the item does not exist and print message and exit
     if(item_to_modify == tasks->end())
     {
@@ -106,7 +104,7 @@ void Stage::modify_task(void)
     }
 
     bool exit = false;
-    
+
     while(exit == false)
     {
         int choice {0};
@@ -118,8 +116,8 @@ void Stage::modify_task(void)
         cout << "4) Due Date" << endl;
         cout << "5) Go Back" << endl;
         cout << "*************************************\n" << endl;
-    
-        get_from_stdin<int> ("Enter choice: ", choice);
+
+        get_from_stdin<int>("Enter choice: ", choice);
 
         // placed for visual purpose
         cout << endl;
@@ -129,83 +127,83 @@ void Stage::modify_task(void)
 
         switch(choice)
         {
-        case 1:
-            // rename topic
-            cout << "Rename topic: ";
-            getline(cin, s_data);
-            // modify topic to new topic
-            item_to_modify->second->set_topic(s_data);
-            cout << endl;
-            cout << "Topic renamed" << endl;
-            cout << endl;
-            break;
-        case 2:
-        {
-            // rename description
-            cout << "Rename description: ";
-            getline(cin, s_data);
-
-            // rename with new description
-            item_to_modify->second->set_description(s_data);
-
-            // get the current task *, this is because description determines the key and hence needs to be recomputed and inserted into the unordered_map and item_to_modify needs to be removed
-            Task * new_task = item_to_modify->second;
-            
-            tasks->insert(make_pair(hash<string>{}(new_task->get_description()), new_task));
-
-            // erase the previous version of the task
-            tasks->erase(item_to_modify);
-            cout << endl;
-            cout << "Description renamed" << endl;
-            cout << endl;
-        }
-            break;
-        case 3:
-            // get input from stdin and if true returned then valid input given
-            if(get_from_stdin<float> ("Reset time allocated: ", f_data) == false)
-            {
+            case 1:
+                // rename topic
+                cout << "Rename topic: ";
+                getline(cin, s_data);
+                // modify topic to new topic
+                item_to_modify->second->set_topic(s_data);
                 cout << endl;
-                cout << "Invalid input given" << endl;
+                cout << "Topic renamed" << endl;
+                cout << endl;
+                break;
+            case 2: {
+                // rename description
+                cout << "Rename description: ";
+                getline(cin, s_data);
+
+                // rename with new description
+                item_to_modify->second->set_description(s_data);
+
+                // get the current task *, this is because description determines the key and hence needs to be
+                // recomputed and inserted into the unordered_map and item_to_modify needs to be removed
+                Task* new_task = item_to_modify->second;
+
+                tasks->insert(make_pair(hash<string> {}(new_task->get_description()), new_task));
+
+                // erase the previous version of the task
+                tasks->erase(item_to_modify);
+                cout << endl;
+                cout << "Description renamed" << endl;
                 cout << endl;
             }
-            else
-            {
-                // modify time allocated to new time allocated
-                bool success = item_to_modify->second->set_time_allocated(f_data);
-                // check to see if the time_allocated was successful or not
-                if(success == true)
+            break;
+            case 3:
+                // get input from stdin and if true returned then valid input given
+                if(get_from_stdin<float>("Reset time allocated: ", f_data) == false)
                 {
                     cout << endl;
-                    cout << "Time allocated reset" << endl;
+                    cout << "Invalid input given" << endl;
                     cout << endl;
                 }
                 else
                 {
-                    cout << endl;
-                    cout << "Time cannot be negative, therefore not set" << endl;
-                    cout << endl;
+                    // modify time allocated to new time allocated
+                    bool success = item_to_modify->second->set_time_allocated(f_data);
+                    // check to see if the time_allocated was successful or not
+                    if(success == true)
+                    {
+                        cout << endl;
+                        cout << "Time allocated reset" << endl;
+                        cout << endl;
+                    }
+                    else
+                    {
+                        cout << endl;
+                        cout << "Time cannot be negative, therefore not set" << endl;
+                        cout << endl;
+                    }
                 }
-            }
-            break;
-        case 4:
-            // reset due_date
-            cout << "Reset due date: ";
-            getline(cin, s_data);
-            // modifiy due date to new due date
-            item_to_modify->second->get_due_date()->set_date(s_data);
-            cout << endl;
-            cout << "Due date reset" << endl;
-            cout << endl;
-            break;
-        case 5:
-            exit = true;
-            cout << "Going back ..." << endl;
-            cout << endl;
-            break;
-        default:
-            cout << "Option does not exist" << endl;
-            cout << endl;
-            break;
+                break;
+            case 4:
+                // reset due_date
+                cout << "Reset due date: ";
+                getline(cin, s_data);
+                // modifiy due date to new due date
+                item_to_modify->second->get_due_date()->set_date(s_data);
+                cout << endl;
+                cout << "Due date reset" << endl;
+                cout << endl;
+                break;
+            case 5:
+                exit = true;
+                cout << "Going back ..." << endl;
+                cout << endl;
+                break;
+            default:
+                cout << "Option does not exist" << endl;
+                cout << endl;
+                break;
         }
     }
 }
@@ -226,8 +224,8 @@ void Stage::load_tasks(void)
         cout << "***" << error_message << this->stage << "***" << endl;
         return;
     }
-    
-    Task * new_task = nullptr;
+
+    Task* new_task = nullptr;
 
     try
     {
@@ -235,7 +233,7 @@ void Stage::load_tasks(void)
         {
             // create a new instance of task
             new_task = new Task();
-            
+
             // holds the data read from the file
             string s_data;
 
@@ -271,7 +269,7 @@ void Stage::load_tasks(void)
             // set time_allocated
             new_task->set_time_allocated(f_data);
 
-            // get time_taken 
+            // get time_taken
             getline(stage_file, s_data);
 
             // convert string to float
@@ -286,10 +284,10 @@ void Stage::load_tasks(void)
             // set due_date
             new_task->set_due_date(s_data);
 
-            tasks->insert(make_pair(hash<string>{}(new_task->get_description()), new_task));
+            tasks->insert(make_pair(hash<string> {}(new_task->get_description()), new_task));
         }
     }
-    catch(bad_alloc & exp) // this will take place if the task object cannot be created
+    catch(bad_alloc& exp) // this will take place if the task object cannot be created
     {
         cout << exp.what() << endl;
         cout << "*********************************" << endl;
@@ -297,7 +295,7 @@ void Stage::load_tasks(void)
         cout << "Cannot create anymore tasks" << endl;
         cout << "*********************************" << endl;
     }
-    catch(runtime_error & exp) // this will take place if date object cannot be created
+    catch(runtime_error& exp) // this will take place if date object cannot be created
     {
         cout << exp.what() << endl;
         cout << "***************************" << endl;
@@ -314,7 +312,7 @@ void Stage::save_tasks(void)
 {
     // create string which holds file name
     string file_name = "." + this->stage + ".data";
-    
+
     // open in writing mode
     ofstream stage_file(file_name, ios_base::out);
 
@@ -334,7 +332,7 @@ void Stage::save_tasks(void)
         time_taken
         due_date - value not pointer
     */
-    
+
     for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         stage_file << it->second->get_topic() << endl;
@@ -360,7 +358,7 @@ void Stage::print_table_edge(const char character, const unsigned short horizont
 }
 
 // print a single task
-void Stage::print_task(unordered_map<size_t, Task *>::const_iterator current_task)
+void Stage::print_task(unordered_map<size_t, Task*>::const_iterator current_task)
 {
     const unsigned short horizontal_line_length = 50;
 
@@ -368,38 +366,38 @@ void Stage::print_task(unordered_map<size_t, Task *>::const_iterator current_tas
     print_table_edge('=', horizontal_line_length);
 
     // print ID
-    cout << "ID: "<< current_task->first << endl;
+    cout << "ID: " << current_task->first << endl;
 
     // print -------------
     print_table_edge('-', horizontal_line_length);
 
     // print topic
     cout << "Topic: " << current_task->second->get_topic() << endl;
-    
+
     // print -------------
     print_table_edge('-', horizontal_line_length);
-    
+
     // print description
     cout << "Description: " << current_task->second->get_description() << endl;
-    
+
     // print -------------
     print_table_edge('-', horizontal_line_length);
-    
+
     // print time_allocated
     cout << "Time Allocated: " << current_task->second->get_time_allocated() << endl;
-    
+
     // print -------------
     print_table_edge('-', horizontal_line_length);
-    
+
     // print time_taken
     cout << "Time Taken: " << current_task->second->get_time_taken() << endl;
-    
+
     // print -------------
     print_table_edge('-', horizontal_line_length);
 
     // print due_date
     cout << "Due Date: " << current_task->second->get_due_date()->get_date() << endl;
-    
+
     // horizontal =================== for ammount specficed by horizontal line
     print_table_edge('=', horizontal_line_length);
 }
@@ -411,7 +409,7 @@ void Stage::print_all_tasks(void)
     print_table_edge('*', 50);
 
     // print stage in upper case
-    for(auto & c:this->stage)
+    for(auto& c: this->stage)
     {
         cout << char(c ^ ' ');
     }
@@ -442,14 +440,14 @@ void Stage::print_specific_topic(void)
 
     // print border
     print_table_edge('*', 50);
-    
+
     // print stage in upper case
-    for(auto & c:this->stage)
+    for(auto& c: this->stage)
     {
         cout << char(c ^ ' ');
     }
     cout << endl;
-    
+
     // print another border
     print_table_edge('*', 50);
 
@@ -497,14 +495,14 @@ void Stage::print_specific_due_date(void)
 
     // print border
     print_table_edge('*', 50);
-    
+
     // print stage in upper case
-    for(auto & c:this->stage)
+    for(auto& c: this->stage)
     {
         cout << char(c ^ ' ');
     }
     cout << endl;
-    
+
     // print another border
     print_table_edge('*', 50);
 
@@ -545,7 +543,7 @@ void Stage::print_specific_time_allocated(void)
     float time_allocated {0.0};
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<float> ("Enter time allocated: ", time_allocated) == false)
+    if(get_from_stdin<float>("Enter time allocated: ", time_allocated) == false)
     {
         cout << "Invalid input given" << endl;
         cout << endl;
@@ -556,14 +554,14 @@ void Stage::print_specific_time_allocated(void)
 
     // print border
     print_table_edge('*', 50);
-    
+
     // print stage in upper case
-    for(auto & c:this->stage)
+    for(auto& c: this->stage)
     {
         cout << char(c ^ ' ');
     }
     cout << endl;
-    
+
     // print another border
     print_table_edge('*', 50);
 
@@ -604,7 +602,7 @@ void Stage::print_id(void)
     size_t id {0};
 
     // get input from stdin and if true returned then valid input given
-    if(get_from_stdin<size_t> ("Enter ID: ", id) == false)
+    if(get_from_stdin<size_t>("Enter ID: ", id) == false)
     {
         cout << "Invalid input given" << endl;
         cout << endl;
@@ -615,14 +613,14 @@ void Stage::print_id(void)
 
     // print border
     print_table_edge('*', 50);
-    
+
     // print stage in upper case
-    for(auto & c:this->stage)
+    for(auto& c: this->stage)
     {
         cout << char(c ^ ' ');
     }
     cout << endl;
-    
+
     // print another border
     print_table_edge('*', 50);
 
@@ -674,8 +672,8 @@ void Stage::print(void)
         cout << "6) Go Back" << endl;
         cout << "******************************\n" << endl;
 
-        // get input from stdin and if true returned then valid input given    
-        get_from_stdin<int> ("Enter choice: ", choice);
+        // get input from stdin and if true returned then valid input given
+        get_from_stdin<int>("Enter choice: ", choice);
 
         cout << endl;
 
@@ -709,9 +707,8 @@ void Stage::print(void)
     }
 }
 
-
 // check to see if the passed id exist in the tasks or not
-unordered_map<size_t, Task *>::const_iterator Stage::find_id(size_t id)
+unordered_map<size_t, Task*>::const_iterator Stage::find_id(size_t id)
 {
     return tasks->find(id);
 }
@@ -725,7 +722,7 @@ string Stage::get_stage(void)
 }
 
 // get tasks pointer
-unordered_map<size_t, Task *> * Stage::get_tasks(void)
+unordered_map<size_t, Task*>* Stage::get_tasks(void)
 {
     return this->tasks;
 }
