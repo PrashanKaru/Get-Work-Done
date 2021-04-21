@@ -6,22 +6,22 @@
 // personal include files
 #include "Ongoing.h"
 
-class Today : public Ongoing
+class Today: public Ongoing
 {
-    public:
-        // constructor
-        Today();
+  public:
+    // constructor
+    Today();
 
-        // methods
-        
-        // this method will increase the time spent for a specfic ID
-        void increase_time_spent(void);
+    // methods
 
-        // print menu for current menu and perform action per user request
-        virtual void menu(void) override;
+    // this method will increase the time spent for a specfic ID
+    void increase_time_spent(void);
 
-        // destructor
-        virtual ~Today();
+    // print menu for current menu and perform action per user request
+    virtual void menu(void) override;
+
+    // destructor
+    virtual ~Today();
 };
 
 #endif

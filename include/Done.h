@@ -1,32 +1,33 @@
-#ifndef _DONE_H_ 
-#define _DONE_H_ 
+#ifndef _DONE_H_
+#define _DONE_H_
 
-// standard include files 
+// standard include files
 
-// personal include files 
+// personal include files
 #include "Stage.h"
 
-class Done : public Stage
+class Done: public Stage
 {
-    public:
-        // constructor
-        Done();
-        // methods
+  public:
+    // constructor
+    Done();
+    // methods
 
-        // remove task - override
-        // this overrided method should have no functionality
-        virtual void remove_task(void) override final;
+    // remove task - override
+    // this overrided method should have no functionality
+    virtual void remove_task(void) override final;
 
-        // modify task
-        // this overrided method should have no functionality
-        virtual void modify_task(void) override final;
-       
-        // print menu for current menu and perform action per user request
-        virtual void menu(void) override final;
+    // modify task
+    // this overrided method should have no functionality
+    virtual void modify_task(void) override final;
 
-        // destructor
-        virtual ~Done();
-    private:
+    // print menu for current menu and perform action per user request
+    virtual void menu(void) override final;
+
+    // destructor
+    virtual ~Done();
+
+  private:
 };
 
 #endif
