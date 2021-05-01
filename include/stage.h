@@ -6,25 +6,25 @@
 #include <unordered_map>
 
 // personal include files
-#include "Task.h"
+#include "task.h"
 
 using namespace std;
 
-class Stage
+class stage
 {
   public:
     // constructor
 
     // no parameter constructor used for arrays
-    Stage();
+    stage();
 
     // single paramter constructor
-    Stage(string stage);
+    stage(string stage);
 
     // methods
 
     // insert new task by providing the information
-    void insert_task(size_t id, Task* task_to_insert);
+    void insert_task(size_t id, task* task_to_insert);
 
     // remove task
     virtual void remove_task(void);
@@ -42,7 +42,7 @@ class Stage
     void print_table_edge(const char character, const unsigned short horizontal_line_length);
 
     // print a single task
-    virtual void print_task(unordered_map<size_t, Task*>::const_iterator current_task);
+    virtual void print_task(unordered_map<size_t, task*>::const_iterator current_task);
 
     // print all tasks
     void print_all_tasks(void);
@@ -66,7 +66,7 @@ class Stage
     void print(void);
 
     // check to see if the passed id exist in the tasks or not
-    unordered_map<size_t, Task*>::const_iterator find_id(size_t id);
+    unordered_map<size_t, task*>::const_iterator find_id(size_t id);
 
     // accessors
 
@@ -74,14 +74,14 @@ class Stage
     string get_stage(void);
 
     // get tasks pointer
-    unordered_map<size_t, Task*>* get_tasks(void);
+    unordered_map<size_t, task*>* get_tasks(void);
 
     // destructor
-    virtual ~Stage();
+    virtual ~stage();
 
   private:
-    unordered_map<size_t, Task*>* tasks;
-    string stage;
+    unordered_map<size_t, task*>* tasks;
+    string stage_name;
 };
 
 #endif

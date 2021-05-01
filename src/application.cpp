@@ -3,11 +3,11 @@
 #include <iostream>
 
 // personal include files
-#include "Backlog.h"
-#include "Done.h"
-#include "Ongoing.h"
-#include "Today.h"
-#include "application.h"
+#include "../include/application.h"
+#include "../include/backlog.h"
+#include "../include/done.h"
+#include "../include/ongoing.h"
+#include "../include/today.h"
 #include "input.cpp"
 
 // constructor
@@ -17,7 +17,7 @@ application::application():
     // created a array of pointers on the heap and store address in stages
     try
     {
-        stages = new Stage*[num_of_stages];
+        stages = new stage*[num_of_stages];
     }
     catch(const bad_alloc& exp)
     {
@@ -28,7 +28,7 @@ application::application():
 
     try
     {
-        stages[0] = new Today();
+        stages[0] = new today();
     }
     catch(const bad_alloc& exp)
     {
@@ -41,7 +41,7 @@ application::application():
 
     try
     {
-        stages[1] = new Ongoing();
+        stages[1] = new ongoing();
     }
     catch(const bad_alloc& exp)
     {
@@ -55,7 +55,7 @@ application::application():
 
     try
     {
-        stages[2] = new Backlog();
+        stages[2] = new backlog();
     }
     catch(const bad_alloc& exp)
     {
@@ -70,7 +70,7 @@ application::application():
 
     try
     {
-        stages[3] = new Done();
+        stages[3] = new done();
     }
     catch(const bad_alloc& exp)
     {
@@ -184,8 +184,8 @@ void application::run(void)
                 // check if choice is between and including 1 and 4
                 if(choice == 1 || choice == 2)
                 {
-                    // perform static cast since it is an Ongoing object
-                    Ongoing* an_ongoing_stage = static_cast<Ongoing*>(stages[choice - 1]);
+                    // perform static cast since it is an ongoing object
+                    ongoing* an_ongoing_stage = static_cast<ongoing*>(stages[choice - 1]);
 
                     // print current stats
                     cout << "*********************************************" << endl;
@@ -368,7 +368,7 @@ void application::transfer_task(void)
     cout << endl;
 
     // check to see if the key exists in the map
-    unordered_map<size_t, Task*>::const_iterator item_to_remove = stages[from_stage]->find_id(id);
+    unordered_map<size_t, task*>::const_iterator item_to_remove = stages[from_stage]->find_id(id);
 
     if(item_to_remove == stages[from_stage]->get_tasks()->end())
     {
@@ -388,7 +388,7 @@ void application::transfer_task(void)
     if(to_stage <= stage_limit)
     {
         // create a static cast Ongoing*
-        Ongoing* a_ongoing_stage = static_cast<Ongoing*>(stages[to_stage]);
+        ongoing* a_ongoing_stage = static_cast<ongoing*>(stages[to_stage]);
 
         // check to see if the time_allocated and current_allocated time summed together is greater than the
         // max_allocated_time, if so max_allocated_time does not add this task and exit
@@ -400,9 +400,9 @@ void application::transfer_task(void)
         }
     }
 
-    // transfer the task from this Stage to dest Stage
+    // transfer the task from this stage to dest stage
 
-    // therefore insert task in dest Stage and erase from this stage
+    // therefore insert task in dest stage and erase from this stage
     stages[to_stage]->insert_task(item_to_remove->first, item_to_remove->second);
 
     // erase using const_iterator from earlier
@@ -412,7 +412,7 @@ void application::transfer_task(void)
     if(from_stage <= stage_limit) // Today or Ongoing
     {
         // perform static cast
-        Ongoing* a_ongoing_stage = static_cast<Ongoing*>(stages[from_stage]);
+        ongoing* a_ongoing_stage = static_cast<ongoing*>(stages[from_stage]);
         // update the current_allocated_time
         // since the task was transfered from Today or Ongoing, the current_allocated_time needs to be decreased
         a_ongoing_stage->decrease_current_allocated_time(time_allocated);
@@ -422,7 +422,7 @@ void application::transfer_task(void)
     if(to_stage <= stage_limit) // today
     {
         // perform static cast
-        Ongoing* a_ongoing_stage = static_cast<Ongoing*>(stages[to_stage]);
+        ongoing* a_ongoing_stage = static_cast<ongoing*>(stages[to_stage]);
         // update the current_allocated_time
         // since the task was transfered to Today or Ongoing, the current_allocated_time needs to be increased
         a_ongoing_stage->increase_current_allocated_time(time_allocated);

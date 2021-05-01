@@ -23,15 +23,15 @@ include_directories(include)
 # set sources variable to all the source paths from root of project
 set(src
     src/application.cpp
-    src/Backlog.cpp
-    src/Date.cpp
-    src/Done.cpp
+    src/backlog.cpp
+    src/date.cpp
+    src/done.cpp
     src/input.cpp
     src/main.cpp
-    src/Ongoing.cpp
-    src/Stage.cpp
-    src/Task.cpp
-    src/Today.cpp
+    src/ongoing.cpp
+    src/stage.cpp
+    src/task.cpp
+    src/today.cpp
 )
 
 add_executable(${this} ${src})

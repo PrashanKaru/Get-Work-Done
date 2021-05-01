@@ -2,21 +2,21 @@
 #define _TASK_H_
 
 // own include files
-#include "Date.h"
+#include "date.h"
 
-class Task
+class task
 {
   public:
     // contructor
 
     // Empty contructor - should be called only when creating a new task from menu
-    Task();
+    task();
 
     // All fields contructor - should be called when reading from saved data
-    Task(string topic, string description, float time_allocated, float time_taken, Date* due_date);
+    task(string topic, string description, float time_allocated, float time_taken, date* due_date);
 
     // Copy constructor
-    Task(const Task& src);
+    task(const task& src);
 
     // accessors
 
@@ -51,17 +51,17 @@ class Task
     void set_due_date(string& due_date);
 
     // get due_date
-    Date* get_due_date(void);
+    date* get_due_date(void);
 
     // Destructor
-    ~Task();
+    ~task();
 
   private:
     string topic;
     string description;
     float time_allocated; // this will be in hours
     float time_taken;     // this will be in hours
-    Date* due_date;
+    date* due_date;
 };
 
 #endif

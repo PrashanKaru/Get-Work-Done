@@ -2,24 +2,24 @@
 #include <iostream>
 
 // personal include files
-#include "Backlog.h"
+#include "../include/backlog.h"
 #include "input.cpp"
 
 // constructor
-Backlog::Backlog(): Stage("backlog")
+backlog::backlog(): stage("backlog")
 {
 }
 
 // methods
 
-// insert new task from stdin - overloaded insert_task(size_t, Task *)
-void Backlog::insert_task(void)
+// insert new task from stdin - overloaded insert_task(size_t, task *)
+void backlog::insert_task(void)
 {
-    Task* new_task = nullptr;
+    task* new_task = nullptr;
     try
     {
-        // create default Task
-        new_task = new Task();
+        // create default task
+        new_task = new task();
 
         // get info about task from stdin
         cout << "Set details of new task" << endl;
@@ -48,7 +48,7 @@ void Backlog::insert_task(void)
 
 // print a single task
 // should print without time taken as ongoing should not have this info
-void Backlog::print_task(unordered_map<size_t, Task*>::const_iterator current_task)
+void backlog::print_task(unordered_map<size_t, task*>::const_iterator current_task)
 {
     const unsigned short horizontal_line_length = 50;
 
@@ -87,7 +87,7 @@ void Backlog::print_task(unordered_map<size_t, Task*>::const_iterator current_ta
 }
 
 // print menu for current menu and perform action per user request - no implmentation in base class
-void Backlog::menu(void)
+void backlog::menu(void)
 {
     bool exit = false;
 
@@ -139,6 +139,6 @@ void Backlog::menu(void)
 }
 
 // destructor
-Backlog::~Backlog()
+backlog::~backlog()
 {
 }

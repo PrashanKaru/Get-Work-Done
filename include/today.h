@@ -4,13 +4,13 @@
 // standard include files
 
 // personal include files
-#include "Ongoing.h"
+#include "ongoing.h"
 
-class Today: public Ongoing
+class today: public ongoing
 {
   public:
     // constructor
-    Today();
+    today();
 
     // methods
 
@@ -21,7 +21,7 @@ class Today: public Ongoing
     virtual void menu(void) override;
 
     // destructor
-    virtual ~Today();
+    virtual ~today();
 };
 
 #endif

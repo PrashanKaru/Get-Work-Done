@@ -2,9 +2,9 @@
 #include <iostream>
 
 // personal include files
-#include "Done.h"
+#include "../include/done.h"
 
-Done::Done(): Stage("done")
+done::done(): stage("done")
 {
 }
 
@@ -12,20 +12,20 @@ Done::Done(): Stage("done")
 
 // remove task - override
 // this overrided method should have no functionality
-void Done::remove_task(void)
+void done::remove_task(void)
 {
     cout << "cannot remove from this stage" << endl;
 }
 
 // modify task
 // this overrided method should have no functionality
-void Done::modify_task(void)
+void done::modify_task(void)
 {
     cout << "cannot modify from this stage" << endl;
 }
 
 // print menu for current menu and perform action per user request
-void Done::menu(void)
+void done::menu(void)
 {
     if(get_tasks()->empty() == true)
     {
@@ -34,12 +34,12 @@ void Done::menu(void)
         return;
     }
 
-    cout << "Only can print contentes within Done Stage" << endl;
+    cout << "Only can print contentes within Done stage" << endl;
     cout << endl;
     print();
 }
 
 // destructor
-Done::~Done()
+done::~done()
 {
 }

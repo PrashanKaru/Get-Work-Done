@@ -4,18 +4,18 @@
 // standard include files
 
 // personal include files
-#include "Stage.h"
+#include "stage.h"
 
-class Ongoing: public Stage
+class ongoing: public stage
 {
   public:
     // constructor
 
     // no parameter constructor
-    Ongoing();
+    ongoing();
 
-    // constructor with parameter that allows setting the stage field from Stage Class
-    Ongoing(string src);
+    // constructor with parameter that allows setting the stage field from stage Class
+    ongoing(string src);
 
     // methods
 
@@ -46,7 +46,7 @@ class Ongoing: public Stage
     float get_current_allocated_time(void);
 
     // destructor
-    virtual ~Ongoing();
+    virtual ~ongoing();
 
   private:
     // this will hold the maximum allocated time that all the task's time allocated can add up to

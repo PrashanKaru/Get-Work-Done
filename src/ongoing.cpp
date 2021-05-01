@@ -3,25 +3,25 @@
 #include <iostream>
 
 // personal include files
-#include "Ongoing.h"
+#include "../include/ongoing.h"
 #include "input.cpp"
 
 // constructor
 
 // no parameter constructor
-Ongoing::Ongoing(): Ongoing("ongoing")
+ongoing::ongoing(): ongoing("ongoing")
 {
 }
 
-// constructor with parameter that allows setting the stage field from Stage Class
-Ongoing::Ongoing(string src): Stage(src), max_allocated_time(0.0), current_allocated_time(0.0)
+// constructor with parameter that allows setting the stage field from stage Class
+ongoing::ongoing(string src): stage(src), max_allocated_time(0.0), current_allocated_time(0.0)
 {
 }
 
 // methods
 
 // this will be used to load the tasks from disk
-void Ongoing::load_tasks(void)
+void ongoing::load_tasks(void)
 {
     // create string which holds file name
     string file_name = "." + this->get_stage() + ".data";
@@ -55,14 +55,14 @@ void Ongoing::load_tasks(void)
     // set max_allocated_time
     this->max_allocated_time = f_data;
 
-    Task* new_task = nullptr;
+    task* new_task = nullptr;
 
     try
     {
         while(true)
         {
             // create a new instance of task
-            new_task = new Task();
+            new_task = new task();
 
             // get topic from file
             getline(stage_file, s_data);
@@ -137,7 +137,7 @@ void Ongoing::load_tasks(void)
 }
 
 // this will be used to save the tasks to disk
-void Ongoing::save_tasks(void)
+void ongoing::save_tasks(void)
 {
     // create string which holds file name
     string file_name = "." + this->get_stage() + ".data";
@@ -165,9 +165,9 @@ void Ongoing::save_tasks(void)
         due_date - value not pointer
     */
     // get pointer to ongoing tasks
-    unordered_map<size_t, Task*>* ongoing_tasks = get_tasks();
+    unordered_map<size_t, task*>* ongoing_tasks = get_tasks();
 
-    for(unordered_map<size_t, Task*>::const_iterator it = ongoing_tasks->begin(); it != ongoing_tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = ongoing_tasks->begin(); it != ongoing_tasks->end(); it++)
     {
         stage_file << it->second->get_topic() << endl;
         stage_file << it->second->get_description() << endl;
@@ -181,7 +181,7 @@ void Ongoing::save_tasks(void)
 }
 
 // print menu for current menu and perform action per user request
-void Ongoing::menu(void)
+void ongoing::menu(void)
 {
     // check if stage is empty, if so print message and return
     if(get_tasks()->empty() == true)
@@ -246,14 +246,14 @@ void Ongoing::menu(void)
 }
 
 // increase the current_allocated_time with the value provided as a parameter to the method
-void Ongoing::increase_current_allocated_time(float time_allocated)
+void ongoing::increase_current_allocated_time(float time_allocated)
 {
     // increase current_allocated_time by the value time_allocated
     this->current_allocated_time += time_allocated;
 }
 
 // decrease the current_allocated_time with the value provided as a parameter to the method
-void Ongoing::decrease_current_allocated_time(float time_allocated)
+void ongoing::decrease_current_allocated_time(float time_allocated)
 {
     // decrease current_allocated_time by the value time_allocated
     this->current_allocated_time -= time_allocated;
@@ -262,7 +262,7 @@ void Ongoing::decrease_current_allocated_time(float time_allocated)
 // accessors
 
 // setter max_allocated_time
-bool Ongoing::set_max_allocated_time(float& max_allocated_time)
+bool ongoing::set_max_allocated_time(float& max_allocated_time)
 {
     if(max_allocated_time < 0)
     {
@@ -273,18 +273,18 @@ bool Ongoing::set_max_allocated_time(float& max_allocated_time)
 }
 
 // getter max_allocated_time
-float Ongoing::get_max_allocated_time(void)
+float ongoing::get_max_allocated_time(void)
 {
     return this->max_allocated_time;
 }
 
 // getter current_allocated_time
-float Ongoing::get_current_allocated_time(void)
+float ongoing::get_current_allocated_time(void)
 {
     return this->current_allocated_time;
 }
 
 // destructor
-Ongoing::~Ongoing()
+ongoing::~ongoing()
 {
 }

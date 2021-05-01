@@ -5,7 +5,7 @@
 #include <vector>
 
 // personal include files
-#include "Stage.h"
+#include "stage.h"
 
 class application
 {
@@ -26,7 +26,7 @@ class application
 
   private:
     // this will hold all the stages in the application
-    Stage** stages;
+    stage** stages;
     unsigned short num_of_stages;
     vector<string> stages_in_app;
 };
