@@ -2,18 +2,18 @@
 #include <iostream>
 
 // personal include files
-#include "Today.h"
+#include "../include/today.h"
 #include "input.cpp"
 
 // constructor
-Today::Today(): Ongoing("today")
+today::today(): ongoing("today")
 {
 }
 
 // methods
 
 // this method will increase the time spent for a specfic ID
-void Today::increase_time_spent(void)
+void today::increase_time_spent(void)
 {
     // hold data for max ongoing time
     float increase_time_by {0.0};
@@ -24,7 +24,7 @@ void Today::increase_time_spent(void)
     // check if ID exist
     get_from_stdin<size_t>("Enter ID of task to increase time spent on: ", id);
 
-    unordered_map<size_t, Task*>::const_iterator item_to_increase = find_id(id);
+    unordered_map<size_t, task*>::const_iterator item_to_increase = find_id(id);
 
     cout << endl;
 
@@ -68,7 +68,7 @@ void Today::increase_time_spent(void)
 }
 
 // print menu for current menu and perform action per user request
-void Today::menu(void)
+void today::menu(void)
 {
     // check if stage is empty, if so print message and return
     if(get_tasks()->empty() == true)
@@ -137,6 +137,6 @@ void Today::menu(void)
 }
 
 // destructor
-Today::~Today()
+today::~today()
 {
 }

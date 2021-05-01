@@ -2,21 +2,21 @@
 #include <iostream>
 
 // own include files
-#include "Date.h"
+#include "../include/date.h"
 #include "input.cpp"
 
 // constructor - no fields as parameters therefore set to 1
-Date::Date(): Date(1, 1, 1)
+date::date(): date(1, 1, 1)
 {
 }
 
 // constructor - call when loading from file
-Date::Date(unsigned short day, unsigned short month, unsigned short year): day(day), month(month), year(year)
+date::date(unsigned short day, unsigned short month, unsigned short year): day(day), month(month), year(year)
 {
 }
 
 // setter for date
-void Date::set_date_stdin(void)
+void date::set_date_stdin(void)
 {
     // this will hold the different values that will be used to set the fields
     unsigned short value {0};
@@ -44,18 +44,18 @@ void Date::set_date_stdin(void)
     this->year = value;
 }
 
-string Date::get_date(void)
+string date::get_date(void)
 {
     return to_string(this->day) + "/" + to_string(this->month) + "/" + to_string(this->year);
 }
 
 // setter for date
-void Date::set_date(string& date)
+void date::set_date(string& date)
 {
     sscanf(date.c_str(), "%hu/%hu/%hu", &this->day, &this->month, &this->year);
 }
 
-void Date::get_value(string user_prompt, string error_message, unsigned short min, unsigned short max,
+void date::get_value(string user_prompt, string error_message, unsigned short min, unsigned short max,
                      unsigned short& value)
 {
     bool success = false;

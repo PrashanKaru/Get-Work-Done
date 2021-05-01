@@ -5,14 +5,14 @@
 
 using namespace std;
 
-class Date
+class date
 {
   public:
     // constructors
     // call when creating a new task only
-    Date();
+    date();
     // call when loading from file
-    Date(unsigned short day, unsigned short month, unsigned short year);
+    date(unsigned short day, unsigned short month, unsigned short year);
 
     // accessors
     // setter for date

@@ -3,7 +3,7 @@
 #include <iostream>
 
 // personal include files
-#include "Stage.h"
+#include "../include/stage.h"
 #include "input.cpp"
 
 using namespace std;
@@ -11,32 +11,32 @@ using namespace std;
 // constructor
 
 // no parameter constructor used for arrays
-Stage::Stage()
+stage::stage()
 {
 }
 
 // single paramter constructor
-Stage::Stage(string stage): stage(stage)
+stage::stage(string stage_name): stage_name(stage_name)
 {
     try
     {
-        tasks = new unordered_map<size_t, Task*>();
+        tasks = new unordered_map<size_t, task*>();
     }
     catch(const bad_alloc& exp)
     {
-        cerr << "Not enough memory to create " + this->stage << endl;
+        cerr << "Not enough memory to create " + this->stage_name << endl;
     }
 }
 
 // methods
 // insert new task by providing the information
-void Stage::insert_task(size_t id, Task* task_to_insert)
+void stage::insert_task(size_t id, task* task_to_insert)
 {
     this->tasks->insert(make_pair(id, task_to_insert));
 }
 
 // remove task
-void Stage::remove_task()
+void stage::remove_task()
 {
     // holds id to remove
     size_t id {0};
@@ -55,7 +55,7 @@ void Stage::remove_task()
     cout << "Checking if ID exists" << endl;
     cout << endl;
     // check to see if the key exists in the map
-    unordered_map<size_t, Task*>::const_iterator item_to_remove = tasks->find(id);
+    unordered_map<size_t, task*>::const_iterator item_to_remove = tasks->find(id);
     if(item_to_remove == tasks->end())
     {
         cout << "Entered ID does not match any task" << endl;
@@ -63,7 +63,7 @@ void Stage::remove_task()
     }
     else
     {
-        // delete the memory allocated for the Task
+        // delete the memory allocated for the task
         delete item_to_remove->second;
 
         // erase using key
@@ -74,7 +74,7 @@ void Stage::remove_task()
 }
 
 // modify task
-void Stage::modify_task(void)
+void stage::modify_task(void)
 {
     // holds id to remove
     size_t id {0};
@@ -93,7 +93,7 @@ void Stage::modify_task(void)
 
     cout << endl;
     // check to see if the item exists
-    unordered_map<size_t, Task*>::const_iterator item_to_modify = tasks->find(id);
+    unordered_map<size_t, task*>::const_iterator item_to_modify = tasks->find(id);
 
     // check if the item does not exist and print message and exit
     if(item_to_modify == tasks->end())
@@ -147,7 +147,7 @@ void Stage::modify_task(void)
 
                 // get the current task *, this is because description determines the key and hence needs to be
                 // recomputed and inserted into the unordered_map and item_to_modify needs to be removed
-                Task* new_task = item_to_modify->second;
+                task* new_task = item_to_modify->second;
 
                 tasks->insert(make_pair(hash<string> {}(new_task->get_description()), new_task));
 
@@ -209,10 +209,10 @@ void Stage::modify_task(void)
 }
 
 // this will be used to load the tasks from disk
-void Stage::load_tasks(void)
+void stage::load_tasks(void)
 {
     // create string which holds file name
-    string file_name = "." + this->stage + ".data";
+    string file_name = "." + this->stage_name + ".data";
 
     // open in reading mode
     ifstream stage_file(file_name, ios_base::in);
@@ -221,18 +221,18 @@ void Stage::load_tasks(void)
     if(stage_file.is_open() == false)
     {
         string error_message = "No saved data for ";
-        cout << "***" << error_message << this->stage << "***" << endl;
+        cout << "***" << error_message << this->stage_name << "***" << endl;
         return;
     }
 
-    Task* new_task = nullptr;
+    task* new_task = nullptr;
 
     try
     {
         while(true)
         {
             // create a new instance of task
-            new_task = new Task();
+            new_task = new task();
 
             // holds the data read from the file
             string s_data;
@@ -308,10 +308,10 @@ void Stage::load_tasks(void)
     stage_file.close();
 }
 // this will be used to save the tasks to disk
-void Stage::save_tasks(void)
+void stage::save_tasks(void)
 {
     // create string which holds file name
-    string file_name = "." + this->stage + ".data";
+    string file_name = "." + this->stage_name + ".data";
 
     // open in writing mode
     ofstream stage_file(file_name, ios_base::out);
@@ -333,7 +333,7 @@ void Stage::save_tasks(void)
         due_date - value not pointer
     */
 
-    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         stage_file << it->second->get_topic() << endl;
         stage_file << it->second->get_description() << endl;
@@ -347,7 +347,7 @@ void Stage::save_tasks(void)
 }
 
 // print a table edge with a specific character
-void Stage::print_table_edge(const char character, const unsigned short horizontal_line_length)
+void stage::print_table_edge(const char character, const unsigned short horizontal_line_length)
 {
     for(unsigned short i = 0; i < horizontal_line_length; i++)
     {
@@ -358,7 +358,7 @@ void Stage::print_table_edge(const char character, const unsigned short horizont
 }
 
 // print a single task
-void Stage::print_task(unordered_map<size_t, Task*>::const_iterator current_task)
+void stage::print_task(unordered_map<size_t, task*>::const_iterator current_task)
 {
     const unsigned short horizontal_line_length = 50;
 
@@ -403,13 +403,13 @@ void Stage::print_task(unordered_map<size_t, Task*>::const_iterator current_task
 }
 
 // print all tasks
-void Stage::print_all_tasks(void)
+void stage::print_all_tasks(void)
 {
     // print border
     print_table_edge('*', 50);
 
     // print stage in upper case
-    for(auto& c: this->stage)
+    for(auto& c: this->stage_name)
     {
         cout << char(c ^ ' ');
     }
@@ -418,7 +418,7 @@ void Stage::print_all_tasks(void)
     // print another border
     print_table_edge('*', 50);
 
-    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         cout << endl;
         print_task(it);
@@ -428,7 +428,7 @@ void Stage::print_all_tasks(void)
     cout << endl;
 }
 // print based on topic
-void Stage::print_specific_topic(void)
+void stage::print_specific_topic(void)
 {
     string topic;
 
@@ -442,7 +442,7 @@ void Stage::print_specific_topic(void)
     print_table_edge('*', 50);
 
     // print stage in upper case
-    for(auto& c: this->stage)
+    for(auto& c: this->stage_name)
     {
         cout << char(c ^ ' ');
     }
@@ -454,7 +454,7 @@ void Stage::print_specific_topic(void)
     // hold flag
     bool exists = false;
 
-    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         // if the topic matches print
         if(it->second->get_topic() == topic)
@@ -483,7 +483,7 @@ void Stage::print_specific_topic(void)
 }
 
 // print based on due date
-void Stage::print_specific_due_date(void)
+void stage::print_specific_due_date(void)
 {
     string due_date;
 
@@ -497,7 +497,7 @@ void Stage::print_specific_due_date(void)
     print_table_edge('*', 50);
 
     // print stage in upper case
-    for(auto& c: this->stage)
+    for(auto& c: this->stage_name)
     {
         cout << char(c ^ ' ');
     }
@@ -509,7 +509,7 @@ void Stage::print_specific_due_date(void)
     // hold flag
     bool exists = false;
 
-    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         // if the due date matches print
         if(it->second->get_due_date()->get_date() == due_date)
@@ -538,7 +538,7 @@ void Stage::print_specific_due_date(void)
 }
 
 // print based on time allocted
-void Stage::print_specific_time_allocated(void)
+void stage::print_specific_time_allocated(void)
 {
     float time_allocated {0.0};
 
@@ -556,7 +556,7 @@ void Stage::print_specific_time_allocated(void)
     print_table_edge('*', 50);
 
     // print stage in upper case
-    for(auto& c: this->stage)
+    for(auto& c: this->stage_name)
     {
         cout << char(c ^ ' ');
     }
@@ -568,7 +568,7 @@ void Stage::print_specific_time_allocated(void)
     // hold flag
     bool exists = false;
 
-    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         // if the topic matches print
         if(it->second->get_time_allocated() == time_allocated)
@@ -597,7 +597,7 @@ void Stage::print_specific_time_allocated(void)
 }
 
 // print based on ID
-void Stage::print_id(void)
+void stage::print_id(void)
 {
     size_t id {0};
 
@@ -615,7 +615,7 @@ void Stage::print_id(void)
     print_table_edge('*', 50);
 
     // print stage in upper case
-    for(auto& c: this->stage)
+    for(auto& c: this->stage_name)
     {
         cout << char(c ^ ' ');
     }
@@ -627,7 +627,7 @@ void Stage::print_id(void)
     // hold flag
     bool exists = false;
 
-    for(unordered_map<size_t, Task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
+    for(unordered_map<size_t, task*>::const_iterator it = tasks->begin(); it != tasks->end(); it++)
     {
         // if the topic matches print
         if(it->first == id)
@@ -656,7 +656,7 @@ void Stage::print_id(void)
 }
 
 // method for printing all print options available and printing
-void Stage::print(void)
+void stage::print(void)
 {
     bool exit = false;
 
@@ -708,7 +708,7 @@ void Stage::print(void)
 }
 
 // check to see if the passed id exist in the tasks or not
-unordered_map<size_t, Task*>::const_iterator Stage::find_id(size_t id)
+unordered_map<size_t, task*>::const_iterator stage::find_id(size_t id)
 {
     return tasks->find(id);
 }
@@ -716,19 +716,19 @@ unordered_map<size_t, Task*>::const_iterator Stage::find_id(size_t id)
 // accessors
 
 // get stage
-string Stage::get_stage(void)
+string stage::get_stage(void)
 {
-    return this->stage;
+    return this->stage_name;
 }
 
 // get tasks pointer
-unordered_map<size_t, Task*>* Stage::get_tasks(void)
+unordered_map<size_t, task*>* stage::get_tasks(void)
 {
     return this->tasks;
 }
 
 // destructor
-Stage::~Stage()
+stage::~stage()
 {
     for(auto it = tasks->begin(); it != tasks->end(); it++)
     {

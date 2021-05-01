@@ -4,13 +4,13 @@
 // standard include files
 
 // personal include files
-#include "Stage.h"
+#include "stage.h"
 
-class Done: public Stage
+class done: public stage
 {
   public:
     // constructor
-    Done();
+    done();
     // methods
 
     // remove task - override
@@ -25,7 +25,7 @@ class Done: public Stage
     virtual void menu(void) override final;
 
     // destructor
-    virtual ~Done();
+    virtual ~done();
 
   private:
 };
