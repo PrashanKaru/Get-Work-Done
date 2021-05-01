@@ -1,2 +1,8 @@
+# workspace settings 
 .vscode/
+
+# build folder for cmake output
 build/
+
+# ccls
+.ccls-cache/
