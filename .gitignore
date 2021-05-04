@@ -6,3 +6,6 @@ build/
 
 # ccls
 .ccls-cache/
+
+# used by ccls for LSP
+compile_commands.json
