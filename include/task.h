@@ -1,7 +1,7 @@
 #ifndef _TASK_H_
 #define _TASK_H_
 
-// own include files
+// project provided include files
 #include "date.h"
 
 class task

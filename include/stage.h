@@ -1,11 +1,11 @@
 #ifndef _STAGE_H_
 #define _STAGE_H_
 
-// standard include files
+// standard C++ include files
 #include <string>
 #include <unordered_map>
 
-// personal include files
+// project provided include files
 #include "task.h"
 
 using namespace std;

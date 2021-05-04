@@ -1,9 +1,7 @@
 #ifndef _ONGOING_H_
 #define _ONGOING_H_
 
-// standard include files
-
-// personal include files
+// project provided include files
 #include "stage.h"
 
 class ongoing: public stage

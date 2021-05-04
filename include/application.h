@@ -1,10 +1,10 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 
-// standard include files
+// standard C++ include files
 #include <vector>
 
-// personal include files
+// project provided include files
 #include "stage.h"
 
 class application

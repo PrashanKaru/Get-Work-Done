@@ -1,9 +1,7 @@
 #ifndef _BACKLOG_H_
 #define _BACKLOG_H_
 
-// standard include files
-
-// personal include files
+// project provided include files
 #include "stage.h"
 
 class backlog: public stage

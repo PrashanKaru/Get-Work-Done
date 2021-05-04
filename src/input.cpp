@@ -1,7 +1,7 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
-// standard include files
+// standard C++ include files
 #include <iostream>
 #include <string>
 

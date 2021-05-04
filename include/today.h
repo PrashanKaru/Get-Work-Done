@@ -1,9 +1,7 @@
 #ifndef _TODAY_H_
 #define _TODAY_H_
 
-// standard include files
-
-// personal include files
+// project provided include files
 #include "ongoing.h"
 
 class today: public ongoing

@@ -1,14 +1,14 @@
-// standard include files
+// standard C++ include files
 #include <cstdlib>
 #include <iostream>
 
-// personal include files
-#include "../include/application.h"
-#include "../include/backlog.h"
-#include "../include/done.h"
-#include "../include/ongoing.h"
-#include "../include/today.h"
+// project provided include files
+#include "application.h"
+#include "backlog.h"
+#include "done.h"
 #include "input.cpp"
+#include "ongoing.h"
+#include "today.h"
 
 // constructor
 application::application():

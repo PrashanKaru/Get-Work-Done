@@ -1,9 +1,9 @@
-// standard include files
+// standard C++ include files
 #include <iostream>
 
-// personal include files
-#include "../include/today.h"
+// project provided include files
 #include "input.cpp"
+#include "today.h"
 
 // constructor
 today::today(): ongoing("today")

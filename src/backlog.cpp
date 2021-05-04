@@ -1,8 +1,8 @@
-// standard include files
+// standard C++ include files
 #include <iostream>
 
-// personal include files
-#include "../include/backlog.h"
+// project provided include files
+#include "backlog.h"
 #include "input.cpp"
 
 // constructor

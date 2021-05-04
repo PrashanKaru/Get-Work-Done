@@ -1,10 +1,10 @@
-// standard include files
+// standard C++ include files
 #include <iostream>
 #include <string>
 
-// own include files
-#include "../include/task.h"
+// project provided include files
 #include "input.cpp"
+#include "task.h"
 
 using namespace std;
 

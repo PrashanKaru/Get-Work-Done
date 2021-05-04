@@ -1,7 +1,7 @@
-// standard include files
+// standard C++ include files
 #include <iostream>
 
-// own include files
+// project provided include files
 #include "application.h"
 
 using namespace std;

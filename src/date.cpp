@@ -1,8 +1,8 @@
-// standard include files
+// standard C++ include files
 #include <iostream>
 
-// own include files
-#include "../include/date.h"
+// project provided include files
+#include "date.h"
 #include "input.cpp"
 
 // constructor - no fields as parameters therefore set to 1

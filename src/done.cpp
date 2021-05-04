@@ -1,8 +1,8 @@
-// standard include files
+// standard C++ include files
 #include <iostream>
 
-// personal include files
-#include "../include/done.h"
+// project provided include files
+#include "done.h"
 
 done::done(): stage("done")
 {

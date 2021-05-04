@@ -1,10 +1,10 @@
-// standard include files
+// standard C++ include files
 #include <fstream>
 #include <iostream>
 
-// personal include files
-#include "../include/stage.h"
+// project provided include files
 #include "input.cpp"
+#include "stage.h"
 
 using namespace std;
 
